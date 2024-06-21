@@ -33,7 +33,7 @@
       <el-col :span="18" :xs="24">
         <h1 class="movie-detail-title hidden-sm-and-up">
           {{ detailRes?.data.keyWord }}
-          <span>
+          <span class="rate">
             {{ (detailRes?.data.videoDouBan ?? 0) > 0 ? detailRes?.data.videoDouBan : '暂无评分' }}
           </span>
         </h1>
@@ -44,7 +44,7 @@
           <div class="movies-info">
             <h1 class="hidden-sm-and-down">
               {{ detailRes?.data.keyWord }}
-              <span>
+              <span class="rate">
                 {{ (detailRes?.data.videoDouBan ?? 0) > 0 ? detailRes?.data.videoDouBan : '暂无评分' }}
               </span>
             </h1>
