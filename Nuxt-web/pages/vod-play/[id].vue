@@ -70,7 +70,7 @@
         >
           <el-tabs>
             <el-tab-pane label="剧集列表">
-              <el-space wrap :size="5">
+              <el-space wrap :size="5" class="kdy_max_height_list">
                 <div v-for="epItem in epDetailRes?.data.videoEpisodeGroup.episodes" :key="epItem.id">
                   <el-button :type="epItem.id == epDetailRes?.data.id ? 'primary' : 'default'">
                     <a
@@ -279,8 +279,26 @@
     refresh();
   });
 
+  //激活滚动到当前位置
+  function scrollToActiveElement() {
+    nextTick(() => {
+      const elSpace = document.querySelector('.kdy_max_height_list');
+      if (elSpace) {
+        const activeElement = elSpace.querySelector('.kdy_a_active');
+        if (activeElement) {
+          const rect = activeElement.getBoundingClientRect();
+          const elSpaceRect = elSpace.getBoundingClientRect();
+          if (rect.top < elSpaceRect.top || rect.bottom > elSpaceRect.bottom) {
+            elSpace.scrollTop = activeElement.offsetTop - elSpaceRect.height / 2 + rect.height / 2;
+          }
+        }
+      }
+    });
+  }
+
   onMounted(async () => {
     qrcodeUrl.value = window.location.href;
+    scrollToActiveElement();
   });
 </script>
 

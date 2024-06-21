@@ -41,7 +41,7 @@ export const userApi = {
 
   createFeedback: '/kdy-login/FeedBackInfo/create',
   createWithHelp: '/kdy-login/FeedBackInfo/createWithHelp',
-  queryFeedback: '/kdy-normal/FeedBackInfo/getPageList',
+  queryFeedback: '/kdy-normal/FeedBackInfo/query-feedback',
 
   regUser: '/kdy-normal/KdyUser/create',
   login: '/kdy-normal/KdyUser/login',

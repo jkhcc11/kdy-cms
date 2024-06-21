@@ -27,6 +27,7 @@
                   {{ $formatTimeDifference(scope.row.createdTime) }}
                 </template>
               </el-table-column>
+              <el-table-column prop="userEmail" label="用户" />
               <el-table-column prop="otp" label="操作">
                 <template #default="scope">
                   <el-button size="small" type="primary">

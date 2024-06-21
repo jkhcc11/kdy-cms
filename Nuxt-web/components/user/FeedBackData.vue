@@ -44,7 +44,7 @@
             background
             layout="prev, pager, next"
             :current-page="currentPage"
-            :page-size="12"
+            :page-size="24"
             :pager-count="5"
             :total="total"
             @current-change="handleCurrentChange"

@@ -50,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-  import { pageSearchApi, vodApi } from '~/api/httpApi';
+  import { pageSearchApi } from '~/api/httpApi';
 
   const title = ref('');
   const route = useRoute();
@@ -59,7 +59,6 @@
     keyword: undefined,
     configId: undefined
   });
-  const currentPage = ref<number>(1);
 
   form.keyword = route.query.keyword as string;
   form.configId = route.query.configId as string;
@@ -77,14 +76,18 @@
     pending,
     refresh,
     error
-  } = await useAsyncData<ResData<NormalPageParseOut>>('bt-search-by-keyword', () =>
-    useClientRequest<ResData<NormalPageParseOut>>(pageSearchApi.search, {
-      query: {
-        keyWord: form.keyword,
-        configId: form.configId
-      }
-    })
-  );
+  } = await useAsyncData<ResData<NormalPageParseOut> | null>('bt-search-by-keyword', () => {
+    if (form.keyword && form.configId) {
+      return useClientRequest<ResData<NormalPageParseOut>>(pageSearchApi.search, {
+        query: {
+          keyWord: form.keyword,
+          configId: form.configId
+        }
+      });
+    }
+
+    return Promise.resolve(null); // 如果参数无效，返回一个resolved的Promise
+  });
 
   title.value = `搜索结果`;
   //搜素

@@ -142,6 +142,11 @@ h6 {
   color: #000;
 }
 
+.kdy_max_height_list{
+  max-height: 150px;
+  overflow-y: scroll
+}
+
 /* 自定义滚动条样式 */
 ::-webkit-scrollbar {
   width: 2px; /* 滚动条宽度 */

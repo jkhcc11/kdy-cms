@@ -116,7 +116,7 @@
                 v-for="epGroupItem in detailRes.data.episodeGroup"
                 :key="epGroupItem.id"
               >
-                <el-space wrap :size="5">
+                <el-space wrap :size="5" class="kdy_max_height_list">
                   <div v-for="epItem in epGroupItem.episodes" :key="epItem.id">
                     <el-text v-if="epGroupItem.episodeGroupType === EpisodeGroupTypeEnum.下载" line-clamp="1">
                       {{ epItem.episodeName }}
@@ -146,7 +146,7 @@
               <h3 class="title items-center">剧情简介</h3>
             </div>
           </div>
-          <div class="desc" v-html="detailRes?.data.videoMainInfo.videoSummary || ''"></div>
+          <div class="desc kdy_max_height_list" v-html="detailRes?.data.videoMainInfo.videoSummary || ''"></div>
         </div>
       </el-col>
       <el-col :span="6" class="hidden-sm-and-down">

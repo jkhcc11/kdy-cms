@@ -105,7 +105,7 @@
                 <div class="video-list__detail">
                   <h4 class="title text-overflow" :title="item.keyWord">{{ item.videoYear }} {{ item.keyWord }}</h4>
                   <p class="text-overflow">
-                    更新时间： {{ $formatTimeDifference(item.modifyTime ?? item.createdTime) }}
+                    {{ $formatTimeDifference(item.modifyTime ?? item.createdTime) }}
                     <!-- 更新时间：{{ $dayjs(item.modifyTime ?? item.createdTime).format('YYYY-MM-DD') }} -->
                     <!-- <template v-for="actor in item.casts"> {{ actor.actor.name }}&nbsp; </template> -->
                   </p>
