@@ -200,7 +200,15 @@
     text-align: center;
   }
 
+  .kdy_dialog {
+    width: 60%;
+  }
+
   @media only screen and (max-width: 991px) {
+    .kdy_dialog {
+      width: 80%;
+    }
+
     .header {
       position: relative;
 

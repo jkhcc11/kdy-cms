@@ -30,7 +30,7 @@
                           {{ item.videoYear }} {{ item.keyWord }}
                         </h4>
                         <p class="text-overflow">
-                          更新时间：{{ $formatTimeDifference(item.modifyTime ?? item.createdTime) }}
+                          {{ $formatTimeDifference(item.modifyTime ?? item.createdTime) }}
                           <!-- <template v-for="actor in item.casts"> {{ actor.actor.name }}&nbsp; </template> -->
                         </p>
                       </div>

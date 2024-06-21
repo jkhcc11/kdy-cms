@@ -1,6 +1,6 @@
 <template>
   <client-only>
-    <el-dialog v-model="vodInputVisible" title="影片录入" :close-on-click-modal="false">
+    <el-dialog v-model="vodInputVisible" title="影片录入" :close-on-click-modal="false" class="kdy_dialog">
       <el-form ref="formVodInputRef" :model="formVodInput" :rules="rules">
         <el-form-item prop="originalUrl">
           <el-input

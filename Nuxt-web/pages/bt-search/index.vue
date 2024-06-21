@@ -8,10 +8,13 @@
               <el-form-item>
                 <el-input v-model="form.keyword" placeholder="搜索关键字"></el-input>
               </el-form-item>
-              <el-form-item>
+              <el-form-item v-if="configList && configList.length > 0">
                 <el-select v-model="form.configId" placeholder="引擎">
                   <el-option v-for="item in configList" :key="item.id" :label="item.hostName" :value="item.id" />
                 </el-select>
+              </el-form-item>
+              <el-form-item v-else>
+                <el-text class="mx-1" type="error">暂无可用引擎，请等待管理添加</el-text>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="onSearch" :loading="pending">搜 索</el-button>

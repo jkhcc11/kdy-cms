@@ -73,12 +73,12 @@
               <el-space wrap :size="5" class="kdy_max_height_list">
                 <div v-for="epItem in epDetailRes?.data.videoEpisodeGroup.episodes" :key="epItem.id">
                   <el-button :type="epItem.id == epDetailRes?.data.id ? 'primary' : 'default'">
-                    <a
+                    <el-link
                       :href="`/vod-play/${epItem.id}`"
                       :class="epItem.id == epDetailRes?.data.id ? 'kdy_a_active' : 'kdy_a'"
                     >
                       {{ epItem.episodeName }}
-                    </a>
+                    </el-link>
                   </el-button>
                 </div>
               </el-space>

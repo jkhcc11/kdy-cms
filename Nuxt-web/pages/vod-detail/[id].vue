@@ -127,9 +127,9 @@
                     </el-text>
 
                     <el-button v-else>
-                      <a :href="`/vod-play/${epItem.id}`" class="kdy_a">
+                      <el-link :href="`/vod-play/${epItem.id}`">
                         {{ epItem.episodeName }}
-                      </a>
+                      </el-link>
                     </el-button>
                   </div>
                 </el-space>
@@ -219,6 +219,8 @@
             type: 'success'
           });
           isCollect.value = !isCollect.value;
+          //重新拉去状态
+          refresh();
         }
       } finally {
         collectLoading.value = false;
