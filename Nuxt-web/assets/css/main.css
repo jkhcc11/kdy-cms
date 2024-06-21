@@ -98,6 +98,10 @@ h6 {
   margin-bottom: 20px;
 }
 
+.pt-10{
+  padding-top: 10px;
+}
+
 .clearfix:after {
   content: '';
   display: block;
@@ -124,9 +128,6 @@ h6 {
 
 .kdy_padding{
    padding: 10px;
-}
-.pt-10{
-  padding-top: 10px;
 }
 
 .kdy_row {
