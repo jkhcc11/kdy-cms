@@ -38,9 +38,9 @@ npm run preview
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
-### 已知可成功部署环境
--[x] vercel
--[ ] cloudflare Pages 有坑 待踩坑
+### 免服务器部署
+- [x] vercel  已调试成功
+- [ ] cloudflare Pages 有坑 待踩坑
 
 ### 常见问题
 
