@@ -1,44 +1,43 @@
 <template>
   <div class="container index">
-    <div class="banner">
+    <div class="banner" v-if="config?.bannerItems && config?.bannerItems.length > 0">
       <el-carousel :interval="5000" arrow="always">
-        <el-carousel-item v-for="item in banner?.rows" :key="item.id">
-          <nuxt-link v-if="+item.urlType === 0" :to="item.url">
-            <el-image :src="item.img" style="width: 100%" fit="cover" />
+        <el-carousel-item v-for="item in config?.bannerItems" :key="item.bannerName">
+          <nuxt-link v-if="+item.bannerType === 0" :to="item.url">
+            <kyd-img-box :imgUrl="item.imgUrl" />
           </nuxt-link>
-          <a v-else :href="item.url">
-            <el-image :src="item.img" style="width: 100%" fit="cover" />
+          <a v-else :href="item.url" target="_blank">
+            <kyd-img-box :imgUrl="item.imgUrl" />
           </a>
         </el-carousel-item>
       </el-carousel>
     </div>
-    <movie-box v-for="item in movie?.data" :key="item.value" type="index" :category-item="item" />
-    <div class="friendly-link flex items-center mt-20">
+    <movie-box v-for="item in homeData" :key="item.typeValue" type="index" :category-item="item" />
+    <div class="friendly-link flex items-center mt-20 kdy_row" v-if="config?.linkItems && config?.linkItems.length > 0">
       <img src="../assets/images/icon_26.png" alt="友情链接" />
       友情链接
     </div>
-    <div class="friendly-link__content">
-      <a v-for="item in links?.data" :key="item.id" :href="item.url" target="_blank">{{ item.text }}</a>
+    <div class="friendly-link__content kdy_row">
+      <a v-for="(item, index) in config?.linkItems" :key="index" :href="item.linkUrl" target="_blank" class="kdy_a">{{
+        item.linkName
+      }}</a>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { useServerRequest } from '~/composables/useServerRequest';
-  import { BannerItem, LinkItem } from '~/types/index';
+  definePageMeta({
+    key: route => route.fullPath
+  });
+  const { config } = useGlobalConfig();
 
-  // banner数据
-  const getBannerRequest = useServerRequest<ResPage<BannerItem[]>>('/basic/banner/list');
-  // 影视数据
-  const getMovieRequest = useServerRequest<ResData<ColumnMovieItem[]>>('/web/index');
-  // 获取友情链接
-  const getLinks = useServerRequest<ResData<LinkItem[]>>('/basic/link/all');
+  const { homeData } = useHomeData();
 
-  const [{ data: banner }, { data: movie }, { data: links }] = await Promise.all([
-    getBannerRequest,
-    getMovieRequest,
-    getLinks
-  ]);
+  // //首页
+  // const getHomeRequest = useServerRequest<ResData<HomeDataItem[]>>(homeApi.getHomeData, {
+  //   key: 'get-home-data'
+  // });
+  // const [{ data: homeData }] = await Promise.all([getHomeRequest]);
 </script>
 
 <style lang="scss">
@@ -67,13 +66,17 @@
 
     .friendly-link {
       border-bottom: #eee solid 1px;
-      padding: 10px 0;
+      padding: 10px;
       font-size: 18px;
+      margin-left: -10px;
+      margin-right: -10px;
       > img {
         margin-right: 10px;
       }
       &__content {
-        padding: 20px 0;
+        padding: 20px 15px;
+        margin-left: -10px;
+        margin-right: -10px;
         a {
           padding-right: 15px;
         }

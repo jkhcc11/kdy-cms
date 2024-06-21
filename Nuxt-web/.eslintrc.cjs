@@ -12,5 +12,12 @@ module.exports = {
   plugins: [],
   rules: {
     'vue/no-v-html': 'off'
-  }
+  },
+  //解决prettier 换行提示问题 mac和windows换行不一致
+  "prettier/prettier":[
+    "error",
+    {
+      "endOfLine":"auto"
+    }
+  ]
 };

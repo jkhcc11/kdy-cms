@@ -8,6 +8,7 @@ body {
   font-family: 'Microsoft YaHei', '微软雅黑', 'STHeiti', 'WenQuanYi Micro Hei', SimSun, sans-serif;
   font-size: 14px;
   line-height: 140%;
+  background-color: #f1f5f9;
 }
 
 ul,
@@ -17,7 +18,7 @@ li {
 
 a {
   text-decoration: none;
-  color: #333333;
+  /* color: #333333; */
 }
 
 h1,
@@ -119,4 +120,43 @@ h6 {
 
 .link-color {
   color: dodgerblue;
+}
+
+.kdy_padding{
+   padding: 10px;
+}
+.pt-10{
+  padding-top: 10px;
+}
+
+.kdy_row {
+  background: #fff;
+  border-radius: 5px;
+}
+
+.kdy_a_active{
+  color: #fff;
+}
+
+.kdy_a{
+  color: #000;
+}
+
+/* 自定义滚动条样式 */
+::-webkit-scrollbar {
+  width: 2px; /* 滚动条宽度 */
+  border-radius: 1px; /* 滑块圆角 */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 滚动条轨道 */
+}
+
+:-webkit-scrollbar-thumb {
+  background: #7f7e7e; /* 滚动条滑块 */
+  border-radius: 1px; /* 滑块圆角 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d8d8d8;
 }

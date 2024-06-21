@@ -1,20 +1,23 @@
 <template>
-  <el-row :gutter="20" class="mt-20">
-    <el-col :sm="18">
+  <el-row :gutter="20" class="mt-20 kdy_row">
+    <el-col :sm="24">
       <div class="panel_hd between items-center">
         <div class="panel_hd__left">
           <h3 class="title items-center">
             <i :class="categoryItem.cssClass" class="icon-movie-box"></i>
-            <a href="/">最新{{ categoryItem.name }}</a>
+            {{ categoryItem.typeName }}
           </h3>
         </div>
         <div class="panel_hd__right items-center">
           <ul class="items-center">
-            <li v-for="item in categoryItem.genres" :key="item.id" class="hidden-sm-and-down">
+            <!-- <li v-for="item in categoryItem.genres" :key="item.id" class="hidden-sm-and-down">
               <nuxt-link :to="`/column/${categoryItem.value}/show?t=${item.name}`">{{ item.name }}</nuxt-link>
-            </li>
+            </li> -->
             <li>
-              <nuxt-link :to="`/column/${categoryItem.value}`" class="items-center">
+              <nuxt-link v-if="categoryItem.isUrl" :to="categoryItem.typeValue">
+                更多<el-icon><ElIconArrowRight /></el-icon>
+              </nuxt-link>
+              <nuxt-link v-else :to="`/vod/1/${categoryItem.typeValue}`" class="items-center">
                 更多 <el-icon><ElIconArrowRight /></el-icon>
               </nuxt-link>
             </li>
@@ -23,18 +26,22 @@
       </div>
       <div class="video-list">
         <el-row :gutter="20">
-          <el-col v-for="item in categoryItem.rows" :key="item.id" :sm="4" :xs="8">
+          <el-col v-for="item in categoryItem.typeDataItems" :key="item.id" :sm="4" :xs="8">
             <div class="video-list__block">
-              <nuxt-link :to="`/column/${item.columnValue}/movie/${item.id}`" class="img-box">
-                <el-image lazy class="video-list__block__img" :src="item.poster" fit="cover" />
-                <span v-if="item.movieRate">{{
-                  +item.movieRate.rate === 0 ? '暂无评分' : item.movieRate.rate.toFixed(1)
+              <a :href="`${item.detailUrl}`" class="img-box">
+                <kyd-img-box :imgUrl="item.videoImg" />
+                <!-- <el-image lazy class="video-list__block__img" :src="item.videoImg" fit="cover" /> -->
+                <span v-if="item.videoDouBan">{{
+                  +item.videoDouBan === 0 ? '无评分' : item.videoDouBan.toFixed(1)
                 }}</span>
-              </nuxt-link>
+              </a>
               <div class="video-list__detail">
-                <h4 class="title text-overflow" :title="item.title">{{ item.title }}</h4>
+                <h4 class="title text-overflow" :title="item.keyWord">
+                  {{ item.videoYear > 0 ? item.videoYear : '' }} {{ item.keyWord }}
+                </h4>
                 <p class="text-overflow">
-                  <template v-for="actor in item.casts"> {{ actor.actor.name }}&nbsp; </template>
+                  {{ $formatTimeDifference(item.createdTime) }}
+                  <!-- <template v-for="actor in item.casts"> {{ actor.actor.name }}&nbsp; </template> -->
                 </p>
               </div>
             </div>
@@ -42,9 +49,9 @@
         </el-row>
       </div>
     </el-col>
-    <el-col :span="6" class="hidden-sm-and-down">
+    <!-- <el-col :span="6" class="hidden-sm-and-down">
       <Ranking :title="categoryItem.name + '榜单'" :list="categoryItem.ranks" />
-    </el-col>
+    </el-col> -->
   </el-row>
 </template>
 
@@ -111,6 +118,9 @@
         position: relative;
         height: 218px;
         display: block;
+        img {
+          border-radius: 5px;
+        }
         span {
           position: absolute;
           bottom: 0;

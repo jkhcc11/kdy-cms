@@ -4,17 +4,17 @@
     <header class="header">
       <div class="container between">
         <div class="header__left">
-          <nuxt-link to="/" class="logo">淳渔影视</nuxt-link>
+          <nuxt-link to="/" class="logo">看电影</nuxt-link>
           <nav v-if="route.path.indexOf('/user') === -1" class="hidden-sm-and-down">
             <ul>
               <li :class="route.path === '/' ? 'active' : ''"><NuxtLink to="/">首页</NuxtLink></li>
               <li
-                v-for="item in navigation.data"
-                :key="item.id"
-                :class="route.params.column === item.value ? 'active' : ''"
+                v-for="(item, index) in config?.navItems"
+                :key="index"
+                :class="route.path === item.value ? 'active' : ''"
               >
-                <nuxt-link v-if="+item.type === 1" :to="`/column/${item.value}`">{{ item.name }}</nuxt-link>
-                <nuxt-link v-if="+item.type === 2" :to="item.value" target="_blank">{{ item.name }}</nuxt-link>
+                <nuxt-link v-if="!item.isUrl" :to="item.value">{{ item.showName }}</nuxt-link>
+                <nuxt-link v-if="item.isUrl" :to="item.value" target="_blank">{{ item.showName }}</nuxt-link>
               </li>
             </ul>
           </nav>
@@ -34,6 +34,7 @@
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item command="user">个人中心</el-dropdown-item>
+                    <el-dropdown-item command="vodInput">求片提交</el-dropdown-item>
                     <el-dropdown-item divided command="logOut">退出</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
@@ -47,13 +48,9 @@
       </div>
       <div v-if="route.path.indexOf('/user') === -1" class="mobile-nav hidden-sm-only hidden-sm-and-up">
         <ul>
-          <li
-            v-for="(item, index) in navigation.data"
-            :key="index"
-            :class="route.params.column === item.value ? 'active' : ''"
-          >
-            <nuxt-link v-if="+item.type === 1" :to="`/column/${item.value}`">{{ item.name }}</nuxt-link>
-            <nuxt-link v-if="+item.type === 2" :to="item.value" target="_blank">{{ item.name }}</nuxt-link>
+          <li v-for="(item, index) in config?.navItems" :key="index" :class="route.path === item.value ? 'active' : ''">
+            <nuxt-link v-if="!item.isUrl" :to="item.value">{{ item.showName }}</nuxt-link>
+            <nuxt-link v-if="item.isUrl" :to="item.value" target="_blank">{{ item.showName }}</nuxt-link>
           </li>
         </ul>
       </div>
@@ -61,34 +58,46 @@
     <div class="header__height__placeholder"></div>
     <slot />
     <div class="container default__text-muted">
-      本网站为淳渔CMS演示站，提供的电视剧和电影资源均系收集于各大视频网站<br />
-      若本站收录的节目无意侵犯了贵司版权,请给542968439@qq.com留言,我们会及时逐步删除和规避程序自动搜索采集到的不提供分享的版权影视。<br />
-      本站仅供测试和学习交流。请大家支持正版。
+      本站所有信息均采集于互联网， 本站仅供测试和学习交流。请大家支持正版。<br />
+      若本站收录的节目无意侵犯了贵司版权,请给1549930804@qq.com留言,本站将于24小时内删除。<br />
     </div>
-    <footer>Copyright {{ $dayjs().format('YYYY') }} 淳渔影视网 Inc. All Rights Reserved.</footer>
+    <footer>Copyright {{ $dayjs().format('YYYY') }} KDY Inc. All Rights Reserved.</footer>
     <LoginPop />
+    <VodInputBox />
     <el-backtop />
+    <TipMsgBox v-if="config?.tipMsg" />
   </div>
 </template>
 
 <script setup lang="ts">
   import LoginPop from '~/components/LoginPop.vue';
-  import { useServerRequest } from '~/composables/useServerRequest';
-
+  import VodInputBox from '~/components/VodInputBox.vue';
+  import TipMsgBox from '~/components/TipMsgBox.vue';
   const tokenCookie = useCookie<string | undefined>('token');
   const token = useToken();
   const route = useRoute();
   const loginDialogVisible = useLoginDialogVisible();
+  const vodInputVisible = useVodInputVisible();
 
   const searchValue = ref('');
 
-  const { data: navigation } = await useServerRequest('/column/all', {
-    query: { status: 0 }
-  });
+  //导航分类
+  const { config, refresh } = useGlobalConfig();
+  // refresh();
+
+  // const { data: resData } = await useServerRequest<any>(baseInfoApi.getResource);
+  // allData.navItems = resData.value.data.navItems;
+  // console.log('allData', allData);
+  // const { data: navigation } = await useServerRequest('/column/all', {
+  //   query: { status: 0 }
+  // });
+
+  //导航搜索
   function handleSearch() {
     navigateTo('/search?keyword=' + searchValue.value);
   }
 
+  //登录
   function goLogin() {
     loginDialogVisible.value = true;
   }
@@ -98,12 +107,17 @@
       case 'logOut':
         logOut();
         break;
+      case 'vodInput': {
+        vodInputVisible.value = true;
+        break;
+      }
       default:
         navigateTo('/user');
         break;
     }
   }
 
+  //退出
   function logOut() {
     tokenCookie.value = undefined;
     token.value = '';
@@ -111,6 +125,12 @@
       navigateTo('/');
     }
   }
+
+  // onMounted(async () => {
+  //   if (!config.value) {
+  //     await refresh();
+  //   }
+  // });
 </script>
 
 <style lang="scss">
@@ -130,7 +150,7 @@
         height: 55px;
         line-height: 55px;
         font-size: 24px;
-        color: #ff9900;
+        color: $active-color;
         font-weight: bold;
         background-position: 50% 50% !important;
         background-size: cover !important;
