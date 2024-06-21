@@ -237,15 +237,6 @@
     return `/vod/1/${params.t}`;
   };
 
-  // watch(
-  //   () => route.fullPath,
-  //   async () => {
-  //     console.log('change1', route.fullPath);
-  //     await refresh();
-  //     console.log('change', route.fullPath);
-  //   }
-  // );
-
   onMounted(async () => {
     const { config } = useGlobalConfig();
     filterItems.vodTypeList = config.value?.queryFilterItems.filter(

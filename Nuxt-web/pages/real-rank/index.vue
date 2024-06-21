@@ -64,8 +64,7 @@
 
   if (process.client) {
     // 定时器变量
-    let timer: number | undefined;
-    timer = setInterval(() => {
+    let timer = setInterval(() => {
       if (codeTimeCount.value > 0) {
         codeTimeCount.value--;
       } else {

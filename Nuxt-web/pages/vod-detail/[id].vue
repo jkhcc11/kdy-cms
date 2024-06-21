@@ -91,14 +91,6 @@
                 <el-button v-else :loading="collectLoading" :icon="ElIconStar" type="default" @click="handleCollect">
                   收藏
                 </el-button>
-                <!-- <ClientOnly>
-                  <el-popover v-if="!isUserRate" placement="right" trigger="click">
-                    <template #reference>
-                      <el-button :icon="ElIconEdit">评分</el-button>
-                    </template>
-                    <el-rate v-model="rate" allow-half @change="onRatechange" />
-                  </el-popover>
-                </ClientOnly> -->
               </div>
             </el-form>
           </div>
@@ -156,34 +148,12 @@
           </div>
           <div class="desc" v-html="detailRes?.data.videoMainInfo.videoSummary || ''"></div>
         </div>
-        <!--  演员    -->
-        <!-- <div v-if="castsRes?.rows && castsRes?.rows.length" class="mt-20">
-          <div class="panel_hd between items-center">
-            <div class="panel_hd__left">
-              <h3 class="title items-center"><i class="icon-movie-box"></i>演员</h3>
-            </div>
-          </div>
-          <div class="actor">
-            <ul>
-              <li v-for="item in castsRes.rows" :key="item.id">
-                <el-image style="width: 110px; height: 156px" fit="cover" :src="item.actorAvatar"></el-image>
-                <div>{{ item.actorName }}</div>
-                <div v-if="item.role" class="grey">饰 {{ item.role }}</div>
-                <div v-else class="grey">{{ item.professionName }}</div>
-              </li>
-            </ul>
-          </div>
-        </div> -->
       </el-col>
       <el-col :span="6" class="hidden-sm-and-down">
         <div class="qr_code items-center column mb-20">
           <qrcode-vue :value="qrcodeUrl" :size="160" level="H" />
           <p class="mt-10">扫描二维码用手机观看</p>
         </div>
-        <!-- 周榜单    
-        <Ranking title="周榜单" :list="rank?.data.weekRank" />
-           月榜单    
-        <Ranking title="月榜单" :list="rank?.data.mouthRank" /> -->
       </el-col>
     </el-row>
   </div>
@@ -200,10 +170,6 @@
 
   const route = useRoute();
 
-  // definePageMeta({
-  //   key: route => route.fullPath
-  // });
-
   const token = useToken();
   //登录弹窗
   const loginDialogVisible = useLoginDialogVisible();
@@ -219,19 +185,6 @@
     qrcodeUrl.value = window.location.href;
   });
 
-  // const [{ data: detailRes, refresh }] = await Promise.all([
-  //   useServerRequest<ResData<VodDetail>>(`${vodApi.getDetail}/${id}`)
-  //   // useServerRequest<ResPage<CastListItem[]>>(`/movie/cast/list?movieId=${id}&pageNum=1&pageSize=50`)
-  // ]);
-
-  // if (!detailRes.value?.isSuccess) {
-  //   throw createError({
-  //     statusCode: 404,
-  //     statusMessage: '页面不存在',
-  //     fatal: true
-  //   });
-  // }
-
   isCollect.value = detailRes.value?.data.isSubscribe ?? false;
 
   /**登录后刷新 */
@@ -242,19 +195,6 @@
   watch(detailRes, () => {
     isCollect.value = detailRes.value?.data.isSubscribe ?? false;
   });
-
-  // /** 获取用户收藏状态 */
-  // getUserCollect();
-  // async function getUserCollect() {
-  //   if (!token.value) {
-  //     isCollect.value = false;
-  //   } else {
-  //     const { data: userCollect } = await useServerRequest<ResData<UserMovieBase>>('/user-collect/find', {
-  //       query: { movieId: id }
-  //     });
-  //     isCollect.value = !!userCollect.value?.data;
-  //   }
-  // }
 
   //收藏|取消收藏
   async function handleCollect() {

@@ -300,37 +300,7 @@
       margin-right: 15px;
     }
   }
-  .related_video {
-    overflow-x: auto;
-    width: 100%;
-    overflow-y: hidden;
-    .img {
-      width: 160px;
-      height: 100px;
-    }
-    ul {
-      white-space: nowrap;
-      li {
-        display: inline-block;
-        margin-right: 20px;
-        position: relative;
-        overflow: hidden;
-        p {
-          display: block;
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          background: rgba(0, 0, 0, 0.6);
-          color: #ffffff;
-          height: 36px;
-          line-height: 36px;
-          padding-left: 10px;
-          box-sizing: border-box;
-        }
-      }
-    }
-  }
+
   .animate {
     padding-left: 20px;
     white-space: nowrap;

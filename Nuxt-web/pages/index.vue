@@ -30,14 +30,7 @@
     key: route => route.fullPath
   });
   const { config } = useGlobalConfig();
-
   const { homeData } = useHomeData();
-
-  // //首页
-  // const getHomeRequest = useServerRequest<ResData<HomeDataItem[]>>(homeApi.getHomeData, {
-  //   key: 'get-home-data'
-  // });
-  // const [{ data: homeData }] = await Promise.all([getHomeRequest]);
 </script>
 
 <style lang="scss">
@@ -79,58 +72,6 @@
         margin-right: -10px;
         a {
           padding-right: 15px;
-        }
-      }
-    }
-  }
-
-  .demonstration {
-    color: var(--el-text-color-secondary);
-  }
-
-  .col-pd {
-    li {
-      a {
-        font-size: 14px;
-        padding: 10px 0 10px;
-        border-bottom: dotted 1px #eeeeee;
-
-        .badge {
-          display: inline-block;
-          margin-right: 10px;
-          width: 18px;
-          height: 18px;
-          text-align: center;
-          line-height: 18px;
-          border-radius: 2px;
-          font-size: 12px;
-          background-color: #eee;
-          color: #333;
-        }
-
-        .text-muted {
-          color: #999;
-        }
-      }
-
-      &:nth-child(1) {
-        .badge {
-          background-color: #ff4a4a;
-          color: #fff;
-        }
-      }
-
-      &:nth-child(2) {
-        .badge {
-          background-color: #ff7701;
-          color: #fff;
-        }
-      }
-
-      &:nth-child(3) {
-        .badge {
-          background-color: #ffb400;
-          color: #fff;
         }
       }
     }

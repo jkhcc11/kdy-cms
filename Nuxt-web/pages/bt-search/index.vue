@@ -122,9 +122,4 @@
   .search-form {
     padding: 20px 0;
   }
-  .pagination {
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-  }
 </style>

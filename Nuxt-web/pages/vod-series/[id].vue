@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
   //影视库页
-  import { commonPageSize, domainHost } from '~/types/const';
+  import { commonPageSize } from '~/types/const';
   import { useClientRequest } from '~/composables/useClientRequest';
   import { seriesApi } from '~/api/httpApi';
 

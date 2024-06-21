@@ -9,7 +9,7 @@
               <el-table-column prop="videoName" label="名称" />
               <el-table-column prop="demandType" label="类型">
                 <template #default="scope">
-                  <el-tag :type="scope.row.demandType === 5 ? 'warning' : 'primary'" disable-transitions size="small">{{
+                  <el-tag :type="scope.row.demandType === 5 ? 'warning' : ''" disable-transitions size="small">{{
                     scope.row.demandTypeStr
                   }}</el-tag>
                 </template>
@@ -76,22 +76,15 @@
       return 'warning';
     }
 
-    if (feedBackInfoStatus == 5) {
-      return 'primary';
-    }
-
     if (feedBackInfoStatus == 10) {
       return 'success';
     }
 
-    return 'info';
+    return '';
   }
 </script>
 
 <style lang="scss" scoped>
-  //   .feedback-list {
-  //     padding: 10px;
-  //   }
   .kdy_row {
     padding: 10px;
   }
