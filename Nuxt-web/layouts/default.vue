@@ -73,6 +73,7 @@
   import LoginPop from '~/components/LoginPop.vue';
   import VodInputBox from '~/components/VodInputBox.vue';
   import TipMsgBox from '~/components/TipMsgBox.vue';
+  import { userApi } from '~/api/httpApi';
   const tokenCookie = useCookie<string | undefined>('token');
   const token = useToken();
   const route = useRoute();
@@ -119,11 +120,16 @@
 
   //退出
   function logOut() {
-    tokenCookie.value = undefined;
-    token.value = '';
-    if (route.path.includes('/user')) {
-      navigateTo('/');
-    }
+    useClientRequest(userApi.logOut)
+      .then(res => {
+        if (route.path.includes('/user')) {
+          navigateTo('/');
+        }
+      })
+      .finally(() => {
+        tokenCookie.value = undefined;
+        token.value = '';
+      });
   }
 
   // onMounted(async () => {

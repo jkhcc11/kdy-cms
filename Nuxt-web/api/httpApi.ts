@@ -27,6 +27,7 @@ export const seriesApi = {
 
 //用户相关
 export const userApi = {
+  logOut: '/kdy-login/KdyUser/logout',
   createCollect: '/kdy-login/UserSubscribe/create',
   cancelCollect: '/kdy-login/UserSubscribe/cancel',
   queryCollect: '/kdy-login/UserSubscribe/query',
