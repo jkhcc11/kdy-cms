@@ -155,7 +155,7 @@
   const currentPage = ref<number>((params.page && +params.page) || 1);
   //排序
   const defaultOrderBy = 'default';
-  const orderBy = ref<string>((query.orderBy as string) || defaultOrderBy);
+  const orderBy = ref<string>((query.o as string) || defaultOrderBy);
   //年列表
   const yearList = ref<number[]>([]);
   const y = new Date().getFullYear();
@@ -222,8 +222,19 @@
     }
   }
 
-  async function handleTabChange() {
-    await refresh();
+  async function handleTabChange(newVal: any) {
+    const route = useRoute();
+    const path = generatePathUrl({ page: '1' });
+    await navigateTo({
+      path: path,
+      query: {
+        ...route.query,
+        o: newVal
+      }
+    });
+    if (process.client) {
+      window.scrollTo(0, 0);
+    }
   }
 
   //生成Pathurl
