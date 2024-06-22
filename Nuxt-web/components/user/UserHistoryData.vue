@@ -6,7 +6,7 @@
         <el-row :gutter="20">
           <el-col v-for="item in movieList" :key="item.id" :sm="4" :xs="8">
             <div class="video-list__block">
-              <el-tag type="primary">
+              <el-tag>
                 <nuxt-link :to="`/vod-play/${item.epId}`" class="kdy_a">
                   {{ item.epName }}
                 </nuxt-link></el-tag

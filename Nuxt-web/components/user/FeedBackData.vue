@@ -34,7 +34,7 @@
                   </a>
                 </el-tooltip>
 
-                <abbr>反馈时间： {{ $formatTimeDifference(item.createdTime) }}</abbr>
+                <abbr>{{ $formatTimeDifference(item.createdTime) }}</abbr>
               </div>
             </div>
           </el-col>
@@ -88,15 +88,11 @@
       return 'warning';
     }
 
-    if (feedBackInfoStatus == 5) {
-      return 'primary';
-    }
-
     if (feedBackInfoStatus == 10) {
       return 'success';
     }
 
-    return 'info';
+    return '';
   }
 </script>
 

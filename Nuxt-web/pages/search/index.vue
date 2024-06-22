@@ -97,7 +97,8 @@
     useClientRequest<ResPage<VodItem[]>>(vodApi.querySearch, {
       query: {
         keyWord: form.keyword,
-        page: currentPage.value
+        page: currentPage.value,
+        pageSize: 12
       }
     })
   );

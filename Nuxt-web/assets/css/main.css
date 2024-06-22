@@ -47,6 +47,11 @@ h6 {
     overflow: hidden;
   }
 }
+@media (max-width: 1024px) {
+  .container {
+    width: auto;
+  }
+}
 
 .between {
   display: flex;

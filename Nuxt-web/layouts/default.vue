@@ -16,6 +16,21 @@
                 <nuxt-link v-if="!item.isUrl" :to="item.value">{{ item.showName }}</nuxt-link>
                 <nuxt-link v-if="item.isUrl" :to="item.value" target="_blank">{{ item.showName }}</nuxt-link>
               </li>
+              <li>
+                <el-dropdown trigger="click">
+                  <el-link>其他</el-link>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item>
+                        <nuxt-link to="/bt-search">万能搜索</nuxt-link>
+                      </el-dropdown-item>
+                      <el-dropdown-item>
+                        <nuxt-link to="/real-rank">他们正在看</nuxt-link>
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+              </li>
             </ul>
           </nav>
         </div>
@@ -51,6 +66,21 @@
           <li v-for="(item, index) in config?.navItems" :key="index" :class="route.path === item.value ? 'active' : ''">
             <nuxt-link v-if="!item.isUrl" :to="item.value">{{ item.showName }}</nuxt-link>
             <nuxt-link v-if="item.isUrl" :to="item.value" target="_blank">{{ item.showName }}</nuxt-link>
+          </li>
+          <li>
+            <el-dropdown trigger="click">
+              <el-link style="margin-top: -4px">其他</el-link>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>
+                    <nuxt-link to="/bt-search">万能搜索</nuxt-link>
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <nuxt-link to="/real-rank">他们正在看</nuxt-link>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </li>
         </ul>
       </div>

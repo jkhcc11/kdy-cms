@@ -62,9 +62,10 @@
     })
   );
 
+  let timer = null;
   if (process.client) {
     // 定时器变量
-    let timer = setInterval(() => {
+    timer = setInterval(() => {
       if (codeTimeCount.value > 0) {
         codeTimeCount.value--;
       } else {
@@ -73,6 +74,13 @@
       }
     }, 1000);
   }
+
+  // 清除定时器
+  onUnmounted(() => {
+    if (timer) {
+      clearInterval(timer);
+    }
+  });
 </script>
 
 <style lang="scss" scoped>
