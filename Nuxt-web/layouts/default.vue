@@ -4,7 +4,7 @@
     <header class="header">
       <div class="container between">
         <div class="header__left">
-          <nuxt-link to="/" class="logo"> <img src="../../assets/images/logo.png" alt="" />看电影</nuxt-link>
+          <nuxt-link to="/" class="logo"> <img src="/assets/images/logo.png" alt="" />看电影</nuxt-link>
           <nav v-if="route.path.indexOf('/user') === -1" class="hidden-sm-and-down">
             <ul>
               <li :class="route.path === '/' ? 'active' : ''"><NuxtLink to="/">首页</NuxtLink></li>
