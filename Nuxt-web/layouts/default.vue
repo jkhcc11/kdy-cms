@@ -4,7 +4,7 @@
     <header class="header">
       <div class="container between">
         <div class="header__left">
-          <nuxt-link to="/" class="logo">看电影</nuxt-link>
+          <nuxt-link to="/" class="logo"> <img src="../../assets/images/logo.png" alt="" />看电影</nuxt-link>
           <nav v-if="route.path.indexOf('/user') === -1" class="hidden-sm-and-down">
             <ul>
               <li :class="route.path === '/' ? 'active' : ''"><NuxtLink to="/">首页</NuxtLink></li>
@@ -91,7 +91,7 @@
       本站所有信息均采集于互联网， 本站仅供测试和学习交流。请大家支持正版。<br />
       若本站收录的节目无意侵犯了贵司版权,请给1549930804@qq.com留言,本站将于24小时内删除。<br />
     </div>
-    <footer>Copyright {{ $dayjs().format('YYYY') }} KDY Inc. All Rights Reserved.</footer>
+    <footer>Copyright {{ $dayjs().format('YYYY') }} KDY All Rights Reserved. 放走企鹅群：128931211</footer>
     <LoginPop />
     <VodInputBox />
     <el-backtop />
@@ -191,7 +191,13 @@
         background-position: 50% 50% !important;
         background-size: cover !important;
         overflow: hidden;
+        img {
+          height: 35px;
+          border-radius: 35px;
+          margin-top: 10px;
+        }
       }
+
       nav {
         ul {
           display: flex;
@@ -220,12 +226,12 @@
   }
 
   footer {
-    padding: 40px 0;
+    padding: 10px 0;
     text-align: center;
   }
 
   .default__text-muted {
-    padding: 20px 0 0;
+    padding: 10px 0 0;
     color: #999999;
     text-align: center;
   }
