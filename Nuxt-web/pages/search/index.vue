@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-20 show">
+  <div class="container mt-20 show kdy_row">
     <ClientOnly>
       <el-row :gutter="40">
         <el-col :span="24" :xs="24">
@@ -142,5 +142,9 @@
     padding: 20px;
     display: flex;
     justify-content: center;
+  }
+
+  .kdy_row {
+    padding: 15px;
   }
 </style>

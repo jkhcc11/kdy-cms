@@ -39,12 +39,20 @@ h6 {
   margin: 0 auto;
 }
 
+.kdy_dialog {
+  width: 60%;
+}
+
 @media (max-width: 768px) {
   .container {
     width: auto;
     margin: 0 auto;
     padding: 0 10px;
     overflow: hidden;
+  }
+
+  .kdy_dialog {
+    width: 80% !important;
   }
 }
 @media (max-width: 1024px) {
@@ -81,6 +89,10 @@ h6 {
 
 .ml-10 {
   margin-left: 10px;
+}
+
+.mr-5 {
+  margin-right: 5px;
 }
 
 .mr-10 {

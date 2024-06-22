@@ -37,7 +37,7 @@
         <div v-if="route.path !== '/search'" class="header__right items-center">
           <el-input
             v-model="searchValue"
-            class="w-50 m-2 mr-20"
+            class="w-50 m-2 mr-5"
             placeholder="请输入搜索的影视名"
             :suffix-icon="ElIconSearch"
             @keyup.enter="handleSearch"
@@ -230,15 +230,7 @@
     text-align: center;
   }
 
-  .kdy_dialog {
-    width: 60%;
-  }
-
   @media only screen and (max-width: 991px) {
-    .kdy_dialog {
-      width: 80%;
-    }
-
     .header {
       position: relative;
 
