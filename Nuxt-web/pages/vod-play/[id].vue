@@ -296,9 +296,33 @@
     });
   }
 
+  function autoNextMsg() {
+    const messageHandler = (event: any) => {
+      // // 确认消息来自预期的来源
+      // if (event.origin !== '预期的来源') {
+      //   return;
+      // }
+
+      //pushData.epId = nextEpId;
+      const tempData = event.data;
+      if (tempData) {
+        // 在这里处理接收到的数据
+        //console.log('Received data:', tempData);
+        route.params.id = tempData.epId;
+        refresh();
+      }
+    };
+
+    window.addEventListener('message', messageHandler);
+    onBeforeUnmount(() => {
+      window.removeEventListener('message', messageHandler);
+    });
+  }
+
   onMounted(async () => {
     qrcodeUrl.value = window.location.href;
     scrollToActiveElement();
+    autoNextMsg();
   });
 </script>
 

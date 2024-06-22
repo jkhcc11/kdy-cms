@@ -8,8 +8,17 @@
       <!-- <a class="lv lv1"></a> -->
     </div>
   </div>
-  <div class="clearfix kdy_row kdy_modifypwd">
+  <div class="clearfix kdy_row kdy_modifypwd between">
     <el-button type="warning" size="small" @click="onModify">修改密码</el-button>
+
+    <el-link
+      v-if="userData.data?.isVodAdmin"
+      type="success"
+      size="small"
+      :href="`${newManagerUrl}${token}`"
+      target="_blank"
+      >前往管理</el-link
+    >
   </div>
 
   <div class="clearfix kdy_row kdy_modifyInfo">
@@ -66,8 +75,10 @@
 <script setup lang="ts">
   import { FormInstance } from 'element-plus';
   import { userApi } from '~/api/httpApi';
+  import { newManagerUrl } from '~/types/const';
   import { useClientRequest } from '~/composables/useClientRequest';
 
+  const token = useCookie<string | undefined>('token');
   // 获取用户信息
   const userData = await useClientRequest<ResOptions<any>>(userApi.getInfo);
 
