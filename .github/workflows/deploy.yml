@@ -27,15 +27,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-
-      - name: Change directory
-        run: "cd Nuxt-web"
         
       - name: Install step
         run: "npm install"
+        working-directory: ./Nuxt-web
 
       - name: Build step
         run: "NITRO_PRESET=deno-deploy npm run build"
+        working-directory: ./Nuxt-web
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
