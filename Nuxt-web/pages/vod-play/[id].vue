@@ -41,7 +41,13 @@
       <el-col :span="18" :xs="24">
         <div id="mse">
           <iframe
-            v-if="epDetailRes?.data.playerHost && epDetailRes?.data.id"
+            v-if="
+              epDetailRes?.data.playerHost &&
+              epDetailRes?.data.id &&
+              epDetailRes?.data.videoEpisodeGroup &&
+              epDetailRes?.data.videoEpisodeGroup.episodes &&
+              epDetailRes?.data.videoEpisodeGroup.episodes.length > 0
+            "
             :src="`${epDetailRes.data.playerHost}/VideoPlay/Index/${epDetailRes?.data.id}`"
             id="main-player"
             allowfullscreen="true"
