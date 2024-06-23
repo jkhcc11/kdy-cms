@@ -40,5 +40,5 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "kdy-cms-web"
-          entrypoint: "Nuxt-web/server/index.ts"
-          root: "Nuxt-web/.output"
+          entrypoint: "./Nuxt-web/server/index.ts"
+          root: "./Nuxt-web/.output"
