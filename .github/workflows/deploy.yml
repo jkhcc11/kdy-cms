@@ -29,7 +29,7 @@ jobs:
           node-version: lts/*
 
       - name: Change directory
-        run: cd /Nuxt-web
+        run: cd Nuxt-web
 
       - name: Install step
         run: "pnpm install"
