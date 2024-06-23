@@ -39,4 +39,4 @@ jobs:
         with:
           project: "kdy-cms-web"
           entrypoint: "server/index.ts"
-          root: "/Nuxt-web"
+          root: ".output"
