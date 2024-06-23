@@ -35,6 +35,8 @@ jobs:
       - name: Build step
         run: "NITRO_PRESET=deno-deploy npm run build"
         working-directory: ./Nuxt-web
+        env:
+          BASE_URL: "https://kdy-api.kdy666.pro"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
