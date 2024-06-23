@@ -18,8 +18,8 @@ jobs:
           node-version: 18
           cache: pnpm
       - run: cd Nuxt-web
-      - run: pnpm install
-      - run: pnpm build
+      - run: yarn install
+      - run: yarn build
         env:
           NITRO_PRESET: deno_deploy
           BASE_URL: https://kdy-api.kdy666.pro
