@@ -18,7 +18,7 @@
                 </nuxt-link>
 
                 <br />
-                <abbr> {{ $formatTimeDifference(item.createdTime) }}</abbr>
+                <abbr> {{ $formatTimeDifference(item.modifyTime ?? item.createdTime) }}</abbr>
               </div>
             </div>
           </el-col>

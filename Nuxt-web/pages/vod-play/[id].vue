@@ -267,7 +267,7 @@
       useClientRequest(`${userApi.createHistory}`, {
         body: {
           epId,
-          vodUrl: route.fullPath
+          vodUrl: `/vod-play/${epId}`
         },
         method: 'PUT'
       });

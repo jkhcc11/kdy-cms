@@ -22,7 +22,7 @@
                 </template>
               </el-table-column>
               <el-table-column prop="remark" label="备注" />
-              <el-table-column prop="createdTime" label="时间">
+              <el-table-column prop="createdTime" label="反馈时间">
                 <template #default="scope">
                   {{ $formatTimeDifference(scope.row.createdTime) }}
                 </template>
