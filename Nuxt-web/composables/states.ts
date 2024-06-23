@@ -13,6 +13,9 @@ export const useLoginDialogVisible = () => useState<boolean>('loginDialogVisible
 /** 注册弹层显示状态 */
 export const useRegDialogVisible = () => useState<boolean>('regDialogVisible', () => false);
 
+/** 找回弹层显示状态 */
+export const useFindDialogVisible = () => useState<boolean>('findDialogVisible', () => false);
+
 /** 提交录入弹窗状态 */
 export const useVodInputVisible = () => useState<boolean>('vodInputVisible', () => false);
 

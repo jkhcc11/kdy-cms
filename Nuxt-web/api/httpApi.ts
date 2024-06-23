@@ -45,6 +45,7 @@ export const userApi = {
 
   regUser: '/kdy-normal/KdyUser/create',
   login: '/kdy-normal/KdyUser/login',
+  find: '/kdy-normal/KdyUser/find',
   sendCode: '/kdy-normal/SendCode/sendCodeByEmail'
 };
 

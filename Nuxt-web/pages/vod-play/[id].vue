@@ -304,6 +304,8 @@
       // }
 
       //pushData.epId = nextEpId;
+      console.log('autoNext', event);
+      console.log('autoNextData', event.data);
       const tempData = event.data;
       if (tempData) {
         // 在这里处理接收到的数据

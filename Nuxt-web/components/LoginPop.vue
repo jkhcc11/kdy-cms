@@ -17,6 +17,12 @@
         </el-form-item>
         <el-form-item style="text-align: right">
           还没有账号？去<a href="javascript:void(0)" class="link-color" @click="handleShowRegDialog">注册</a>
+          &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; 忘记密码？去<a
+            href="javascript:void(0)"
+            class="link-color"
+            @click="handleShowFindDialog"
+            >找回</a
+          >
         </el-form-item>
         <el-form-item>
           <el-button type="primary" style="width: 100%" @click="login(formRef)" :loading="btnLoading">登 录</el-button>
@@ -34,8 +40,8 @@
             :maxlength="50"
             show-word-limit
           ></el-input>
-          <el-button type="primary" size="small" @click="sendCode" :loading="isSendCode">
-            <span v-if="codeTimeCount != 120"> 剩余{{ codeTimeCount }}秒 </span>
+          <el-button type="primary" size="small" @click="sendCode('reg')" :loading="isSendCode">
+            <span v-if="codeTimeCount != 120 && codeTimeCount != 0"> 剩余{{ codeTimeCount }}秒 </span>
             <span v-else> 发送验证码 </span>
           </el-button>
         </el-form-item>
@@ -83,23 +89,74 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+
+    <el-dialog v-model="findDialogVisible" title="找回密码" width="360" :close-on-click-modal="false">
+      <el-form ref="formFindRef" :model="findForm" :rules="findRules">
+        <el-form-item prop="userEmail">
+          <el-input
+            v-model="findForm.userEmail"
+            placeholder="请输入邮箱"
+            :prefix-icon="ElIconUserFilled"
+            :maxlength="50"
+            show-word-limit
+          ></el-input>
+          <el-button type="primary" size="small" @click="sendCode('find')" :loading="isSendCode">
+            <span v-if="codeTimeCount != 120 && codeTimeCount != 0"> 剩余{{ codeTimeCount }}秒 </span>
+            <span v-else> 发送验证码 </span>
+          </el-button>
+        </el-form-item>
+        <el-form-item prop="emailCode">
+          <el-input v-model="findForm.emailCode" placeholder="邮箱验证码" :maxlength="6" show-word-limit></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input
+            v-model="findForm.password"
+            type="password"
+            placeholder="请输入密码 至少8位"
+            :prefix-icon="ElIconLock"
+            show-word-limit
+            :minlength="8"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="newPwd">
+          <el-input
+            v-model="findForm.newPwd"
+            type="password"
+            placeholder="请再次输入密码 至少8位"
+            :prefix-icon="ElIconLock"
+            show-word-limit
+            :minlength="8"
+          ></el-input>
+        </el-form-item>
+        <el-form-item style="text-align: right">
+          去<a href="javascript:void(0)" class="link-color" @click="handleShowLoginDialog">登录</a>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" style="width: 100%" @click="handleFind(formFindRef)" :loading="btnLoading"
+            >确 认</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </client-only>
 </template>
 
 <script lang="ts" setup name="LoginPop">
   import { FormInstance } from 'element-plus';
   import { reactive } from '#imports';
-  import { useLoginDialogVisible, useRegDialogVisible } from '~/composables/states';
+  import { useFindDialogVisible, useLoginDialogVisible, useRegDialogVisible } from '~/composables/states';
   import { useClientRequest } from '~/composables/useClientRequest';
   import { userApi } from '~/api/httpApi';
 
   const token = useToken();
   const regDialogVisible = useRegDialogVisible();
   const loginDialogVisible = useLoginDialogVisible();
+  const findDialogVisible = useFindDialogVisible();
   const tokenCookie = useCookie<string | undefined>('token');
 
   const formRef = ref<FormInstance>();
   const formRegRef = ref<FormInstance>();
+  const formFindRef = ref<FormInstance>();
   const btnLoading = ref<boolean>(false);
   const form = reactive({
     userName: '',
@@ -157,17 +214,47 @@
     ]
   });
 
+  //找回
+  const findForm = reactive({
+    userEmail: '',
+    emailCode: '',
+    password: '',
+    newPwd: ''
+  });
+  const findRules = ref({
+    userEmail: [{ required: true, message: '请输入邮箱地址' }],
+    emailCode: [{ required: true, message: '请输入验证码' }],
+    password: [{ required: true, message: '请输入密码' }],
+    newPwd: [
+      {
+        required: true,
+        validator: (_rule: any, value: any, callback: any) => {
+          if (!value) {
+            callback(new Error('请再次输入密码'));
+          } else if (findForm.password !== findForm.newPwd) {
+            callback(new Error('两次密码输入不一致'));
+          } else if (findForm.newPwd.length < 8) {
+            callback(new Error('密码至少8位'));
+          } else {
+            callback();
+          }
+        }
+      }
+    ]
+  });
+
   //发送验证验证码
   const isSendCode = ref<boolean>(false);
   const codeTimeCount = ref(120);
-  function sendCode() {
+  function sendCode(type: 'reg' | 'find') {
+    const codeType = type == 'reg' ? 1 : 3;
     if (regForm.userEmail && regForm.userEmail.length > 0 && regForm.userEmail.indexOf('@') != -1) {
       isSendCode.value = true;
       useClientRequest<ResOptions<string>>(userApi.sendCode, {
         method: 'post',
         body: {
           email: regForm.userEmail,
-          codeType: 1
+          codeType: codeType
         }
       })
         .then(data => {
@@ -181,6 +268,7 @@
                 codeTimeCount.value--;
               } else {
                 isSendCode.value = false;
+
                 clearInterval(timer);
               }
             }, 1000);
@@ -257,15 +345,52 @@
     });
   }
 
+  //找回
+  function handleFind(formEl: FormInstance | undefined) {
+    if (!process.client) return;
+    if (!formEl) return;
+    formEl.validate(valid => {
+      if (valid) {
+        btnLoading.value = true;
+        useClientRequest<ResOptions<string>>(userApi.find, {
+          method: 'POST',
+          body: findForm
+        })
+          .then(data => {
+            if (data.isSuccess) {
+              ElMessage({
+                message: '找回成功',
+                type: 'success'
+              });
+
+              handleShowLoginDialog();
+            }
+          })
+          .finally(() => {
+            btnLoading.value = false;
+          });
+      }
+    });
+  }
+
   // 隐藏登录弹层，显示注册弹层
   function handleShowRegDialog() {
     loginDialogVisible.value = false;
+    findDialogVisible.value = false;
     regDialogVisible.value = true;
   }
 
   // 隐藏注册弹层，显示登录弹层
   function handleShowLoginDialog() {
     loginDialogVisible.value = true;
+    findDialogVisible.value = false;
+    regDialogVisible.value = false;
+  }
+
+  // 显示找回
+  function handleShowFindDialog() {
+    loginDialogVisible.value = false;
+    findDialogVisible.value = true;
     regDialogVisible.value = false;
   }
 </script>
