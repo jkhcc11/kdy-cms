@@ -34,7 +34,7 @@
               : epDetailRes?.data.videoMainInfo.keyWord
           }}
         </el-breadcrumb-item>
-        <el-breadcrumb-item> {{ epDetailRes?.data.episodeName }} </el-breadcrumb-item>
+        <el-breadcrumb-item> {{ currentEpName ?? epDetailRes?.data.episodeName }} </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <el-row :gutter="40" class="mt-10 kdy_padding kdy_row">
@@ -52,7 +52,7 @@
         </div>
         <div>
           <h1 class="mb-10 mt-10 video-detail__title" v-if="epDetailRes?.data.videoMainInfo.keyWord">
-            {{ epDetailRes?.data.videoMainInfo.keyWord }} {{ epDetailRes?.data.episodeName }}
+            {{ epDetailRes?.data.videoMainInfo.keyWord }} {{ currentEpName ?? epDetailRes?.data.episodeName }}
             <el-button type="warning" size="small" @click="onFeedBack">异常反馈</el-button>
           </h1>
         </div>
@@ -70,7 +70,7 @@
                   <el-button :type="epItem.id == epDetailRes?.data.id ? 'primary' : 'default'">
                     <el-link
                       :href="`/vod-play/${epItem.id}`"
-                      :class="epItem.id == epDetailRes?.data.id ? 'kdy_a_active' : 'kdy_a'"
+                      :class="epItem.id == (currentEpId ?? epDetailRes.data.id) ? 'kdy_a_active' : 'kdy_a'"
                     >
                       {{ epItem.episodeName }}
                     </el-link>
@@ -147,9 +147,9 @@
   const route = useRoute();
   // const id = ref();
   const qrcodeUrl = ref('');
-  const epIdRef = ref<string>(route.params.id as string);
-
-  const { epDetailData: epDetailRes, refresh } = useEpDetailData(epIdRef.value);
+  const currentEpId = ref<string | undefined>(undefined);
+  const currentEpName = ref<string | undefined>(undefined);
+  const { epDetailData: epDetailRes, refresh } = useEpDetailData(route.params.id as string);
 
   //反馈
   const isShowFeedBack = ref(false);
@@ -292,7 +292,6 @@
     });
   }
 
-  const router = useRouter();
   function autoNextMsg() {
     const messageHandler = (event: any) => {
       // // 确认消息来自预期的来源
@@ -321,9 +320,8 @@
         // });
         //不刷新 替换网址 拉去最新数据更新父窗口数据
         history.replaceState(null, '', `/vod-play/${tempData.epId}`);
-        epIdRef.value = tempData.epId;
-        refresh();
-        console.log('autoNextData-refresh-replaceState-updatedata');
+        updateEpName(tempData.epId);
+        console.log('autoNextData-updatedata');
       }
     };
 
@@ -331,6 +329,17 @@
     onBeforeUnmount(() => {
       window.removeEventListener('message', messageHandler);
     });
+  }
+
+  //更新最新ep名称
+  function updateEpName(newEpId: string) {
+    //自动播放时接收到的epId
+    currentEpId.value = newEpId;
+
+    const activeElement = document.querySelector('kdy_a_active');
+    if (activeElement) {
+      currentEpName.value = activeElement.innerText;
+    }
   }
 
   onMounted(async () => {
