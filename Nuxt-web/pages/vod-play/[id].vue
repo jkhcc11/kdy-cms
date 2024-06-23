@@ -296,8 +296,9 @@
     });
   }
 
-  async function autoNextMsg() {
-    const messageHandler = async (event: any) => {
+  const router = useRouter();
+  function autoNextMsg() {
+    const messageHandler = (event: any) => {
       // // 确认消息来自预期的来源
       // if (event.origin !== '预期的来源') {
       //   return;
@@ -313,10 +314,15 @@
         // 在这里处理接收到的数据
         //console.log('Received data:', tempData);
         // route.params.id = tempData.epId;
-        await navigateTo({
+        // await navigateTo({
+        //   path: 'vod-play',
+        //   params: {
+        //     id: tempData.epId
+        //   }
+        // });
+        router.push({
           path: `/vod-play/${tempData.epId}`
         });
-
         refresh();
         console.log('autoNextData-refresh');
       }
@@ -331,7 +337,7 @@
   onMounted(async () => {
     qrcodeUrl.value = window.location.href;
     scrollToActiveElement();
-    await autoNextMsg();
+    autoNextMsg();
   });
 </script>
 
