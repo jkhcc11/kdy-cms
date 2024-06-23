@@ -32,10 +32,10 @@ jobs:
         run: cd Nuxt-web
 
       - name: Install step
-        run: "pnpm install"
+        run: "npm install"
 
       - name: Build step
-        run: "NITRO_PRESET=deno-deploy pnpm build"
+        run: "NITRO_PRESET=deno-deploy npm run build"
         env: 
             BASE_URL: https://kdy-api.kdy666.pro
       - name: Upload to Deno Deploy
