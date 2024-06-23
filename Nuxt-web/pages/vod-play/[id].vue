@@ -147,8 +147,9 @@
   const route = useRoute();
   // const id = ref();
   const qrcodeUrl = ref('');
+  const epIdRef = ref<string>(route.params.id as string);
 
-  const { epDetailData: epDetailRes, refresh } = useEpDetailData(route.params.id + '');
+  const { epDetailData: epDetailRes, refresh } = useEpDetailData(epIdRef.value);
 
   //反馈
   const isShowFeedBack = ref(false);
@@ -318,9 +319,11 @@
         // router.replace({
         //   path: `/vod-play/${tempData.epId}`
         // });
+        //不刷新 替换网址 拉去最新数据更新父窗口数据
         history.replaceState(null, '', `/vod-play/${tempData.epId}`);
+        epIdRef.value = tempData.epId;
         refresh();
-        console.log('autoNextData-refresh-replaceState');
+        console.log('autoNextData-refresh-replaceState-updatedata');
       }
     };
 
