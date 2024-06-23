@@ -1,0 +1,31 @@
+name: deno-deploy
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: corepack enable
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+      - run: cd Nuxt-web
+      - run: pnpm install
+      - run: pnpm build
+        env:
+          NITRO_PRESET: deno_deploy
+          BASE_URL: https://kdy-api.kdy666.pro
+      - name: Deploy to Deno Deploy
+        uses: denoland/deployctl@v1
+        with:
+          project: "kdy-cms-web"
+          entrypoint: "server/index.ts"
+          root: ".output"
