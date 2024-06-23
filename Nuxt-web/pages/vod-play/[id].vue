@@ -315,11 +315,12 @@
         //     id: tempData.epId
         //   }
         // });
-        router.replace({
-          path: `/vod-play/${tempData.epId}`
-        });
+        // router.replace({
+        //   path: `/vod-play/${tempData.epId}`
+        // });
+        history.replaceState(null, '', `/vod-play/${tempData.epId}`);
         refresh();
-        console.log('autoNextData-replace');
+        console.log('autoNextData-refresh-replaceState');
       }
     };
 
