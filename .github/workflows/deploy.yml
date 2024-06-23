@@ -29,14 +29,14 @@ jobs:
           node-version: lts/*
 
       - name: Install step
-        run: "yarn install"
+        run: "cd Nuxt-web && npm install"
 
       - name: Build step
-        run: "NITRO_PRESET=deno-deploy yarn run build"
+        run: "cd Nuxt-web && NITRO_PRESET=deno-deploy npm run build"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "kdy-cms-web"
           entrypoint: "server/index.ts"
-          root: ".output"
+          root: "./Nuxt-web/.output"
