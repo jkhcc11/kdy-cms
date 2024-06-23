@@ -91,7 +91,7 @@
       本站所有信息均采集于互联网， 本站仅供测试和学习交流。请大家支持正版。<br />
       若本站收录的节目无意侵犯了贵司版权,请给1549930804@qq.com留言,本站将于24小时内删除。<br />
     </div>
-    <footer>Copyright {{ $dayjs().format('YYYY') }} KDY All Rights Reserved. 放走企鹅群：128931211</footer>
+    <footer>Copyright {{ $dayjs().format('YYYY') }} KDY All Rights Reserved. 防走丢鹅群：128931211</footer>
     <LoginPop />
     <VodInputBox />
     <el-backtop />

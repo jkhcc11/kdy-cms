@@ -246,30 +246,30 @@
   //发送验证验证码
   const isSendCode = ref<boolean>(false);
   const codeTimeCount = ref(120);
+  // 定时器变量
+  let timer: number | null = null;
   function sendCode(type: 'reg' | 'find') {
     const codeType = type == 'reg' ? 1 : 3;
-    if (regForm.userEmail && regForm.userEmail.length > 0 && regForm.userEmail.indexOf('@') != -1) {
+    const email = type == 'reg' ? regForm.userEmail : findForm.userEmail;
+    if (email && email.length > 0 && email.indexOf('@') != -1) {
       isSendCode.value = true;
       useClientRequest<ResOptions<string>>(userApi.sendCode, {
         method: 'post',
         body: {
-          email: regForm.userEmail,
+          email: email,
           codeType: codeType
         }
       })
         .then(data => {
           if (data.isSuccess) {
             codeTimeCount.value = 120;
-            // 定时器变量
-            let timer: number | undefined;
             timer = window.setInterval(() => {
               if (codeTimeCount.value > 0) {
                 isSendCode.value = true;
                 codeTimeCount.value--;
               } else {
                 isSendCode.value = false;
-
-                clearInterval(timer);
+                clearSendCodeTimer();
               }
             }, 1000);
 
@@ -282,6 +282,11 @@
         .finally(() => {
           isSendCode.value = false;
         });
+    } else {
+      ElMessage({
+        message: '邮箱无效-check',
+        type: 'warning'
+      });
     }
   }
 
@@ -378,6 +383,7 @@
     loginDialogVisible.value = false;
     findDialogVisible.value = false;
     regDialogVisible.value = true;
+    clearSendCodeTimer();
   }
 
   // 隐藏注册弹层，显示登录弹层
@@ -385,6 +391,7 @@
     loginDialogVisible.value = true;
     findDialogVisible.value = false;
     regDialogVisible.value = false;
+    clearSendCodeTimer();
   }
 
   // 显示找回
@@ -392,5 +399,14 @@
     loginDialogVisible.value = false;
     findDialogVisible.value = true;
     regDialogVisible.value = false;
+    clearSendCodeTimer();
+  }
+
+  function clearSendCodeTimer() {
+    if (timer) {
+      clearInterval(timer);
+      codeTimeCount.value = 120;
+      isSendCode.value = false;
+    }
   }
 </script>
