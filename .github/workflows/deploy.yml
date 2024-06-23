@@ -27,16 +27,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-        
+
       - name: Install step
-        run: "npm install"
-        working-directory: ./Nuxt-web
+        run: "cd Nuxt-web && npm install"
 
       - name: Build step
-        run: "NITRO_PRESET=deno-deploy npm run build"
-        working-directory: ./Nuxt-web
-        env:
-          BASE_URL: "https://kdy-api.kdy666.pro"
+        run: "cd Nuxt-web && NITRO_PRESET=deno-deploy npm run build"
+        env: 
+            BASE_URL: https://kdy-api.kdy666.pro
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
