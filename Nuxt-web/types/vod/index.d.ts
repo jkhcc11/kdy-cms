@@ -19,6 +19,25 @@ interface VodDetail extends ResBase, BaseEntityDto<string> {
   newUserHistory?: QueryUserHistoryDto;
 }
 
+interface VideoMainInfoDto {
+  // 影片类型 武侠，动作等
+  // 多个以 ，隔开
+  videoGenres: string;
+  // 描述
+  videoSummary: string;
+  // 主演
+  videoCasts: string;
+  // 导演
+  videoDirectors: string;
+  // 国家
+  // 多个以 ，隔开
+  videoCountries: string;
+  // 解说Url
+  narrateUrl: string;
+  // 版权跳转Url
+  banVideoJumpUrl: string;
+}
+
 //影片Item
 interface VodItem
   extends Pick<
@@ -34,7 +53,12 @@ interface VodItem
     | 'videoDouBan'
     | 'videoYear'
     | 'videoInfoUrl'
-  > {}
+    | 'createdTime'
+    | 'modifyTime'
+  > {
+  //有些是mainId
+  mainId: string;
+}
 
 //剧集分组
 interface VideoEpisodeGroupDto extends BaseEntityDto<string> {

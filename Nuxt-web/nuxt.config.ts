@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   // alias: {
   //   '@api': '/api'
   // },
+  //debug: true,
   devtools: { enabled: process.env.DEV_TOOLS || true },
   // css单独文件引用，不使用内联
   experimental: {
@@ -39,7 +40,8 @@ export default defineNuxtConfig({
     public: {
       apiBase: '/server',
       clientApiBase: (process.env.BASE_URL || 'http://[::1]:6005') + '/api',
-      globalTitle: '看电影'
+      globalTitle: '看电影',
+      timeZone: process.env.TimeZone || 'Asia/Shanghai'
     }
   },
   nitro: {

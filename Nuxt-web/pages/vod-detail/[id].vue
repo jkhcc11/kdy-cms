@@ -140,6 +140,54 @@
         <el-empty v-else description="因版权或其他原因资源已下架，请尝试登录或访问其他页面以继续操作。">
           <el-button type="info" plain @click="handleCollect">登录</el-button>
         </el-empty>
+
+        <div class="mt-20">
+          <!-- <div class="panel_hd between items-center">
+            <div class="panel_hd__left">
+              <h3 class="title items-center">相关影片</h3>
+            </div>
+          </div> -->
+          <el-tabs v-model="currentActor">
+            <!-- <el-tab-pane label="时间" name="时间">
+              <vod-item-box :vodItems="artListData?.data" />
+            </el-tab-pane>
+            <el-tab-pane label="评分" name="评分">videoDouBan</el-tab-pane> -->
+            <el-tab-pane
+              :label="`${strItem}`"
+              v-for="(strItem, index) in getDirectorsAndCasts(detailRes.data.videoMainInfo)"
+              :key="index"
+              :name="strItem"
+              :disabled="artLoading"
+            >
+            </el-tab-pane>
+          </el-tabs>
+
+          <el-skeleton :loading="artLoading" animated :count="1">
+            <template #template>
+              <el-skeleton-item variant="image" style="width: 200px; height: 267px" />
+              <div style="padding: 14px">
+                <el-skeleton-item variant="h3" style="width: 50%" />
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-items: space-between;
+                    margin-top: 16px;
+                    height: 16px;
+                  "
+                >
+                  <el-skeleton-item variant="text" style="margin-right: 16px" />
+                  <el-skeleton-item variant="text" style="width: 30%" />
+                </div>
+              </div>
+            </template>
+            <template #default>
+              <vod-item-box :vodItems="artListData?.data" />
+            </template>
+          </el-skeleton>
+          <!-- <el-divider content-position="left">{{ currentActor }}</el-divider> -->
+        </div>
+
         <div class="mt-20">
           <div class="panel_hd between items-center">
             <div class="panel_hd__left">
@@ -166,7 +214,7 @@
   import QrcodeVue from 'qrcode.vue';
   import { useLoginDialogVisible, useToken } from '~/composables/states';
   import { FetchOptions } from '~/composables/useClientRequest';
-  import { userApi } from '~/api/httpApi';
+  import { userApi, vodApi } from '~/api/httpApi';
 
   const route = useRoute();
 
@@ -227,6 +275,59 @@
       }
     }
   }
+
+  //演员|导演相关切换
+  const currentActor = ref<string | null>(null);
+  const artListData = ref<ResData<VodItem[]> | null>(null);
+  const artLoading = ref(false);
+
+  //导演和演员数组
+  function getDirectorsAndCasts(videoMainInfo: VideoMainInfoDto) {
+    const result: string[] = [];
+
+    //分割并移除对应的
+    const splitAndTrim = (str: string) => {
+      return str
+        .split(/[,，/]/)
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
+    };
+
+    let casts: string[] = [];
+    let directors: string[] = [];
+
+    if (videoMainInfo.videoCasts) {
+      casts = splitAndTrim(videoMainInfo.videoCasts).slice(0, 3); // 取前3个演员
+    }
+
+    if (videoMainInfo.videoDirectors) {
+      directors = splitAndTrim(videoMainInfo.videoDirectors).slice(0, 2); // 取前2个导演
+    }
+
+    result.push(...directors, ...casts);
+    if (result.length > 0 && !currentActor.value) {
+      currentActor.value = result[0];
+      console.log('fwfew');
+    }
+
+    return result;
+  }
+
+  //艺人切换
+  watch(currentActor, () => {
+    artLoading.value = true;
+    useClientRequest<ResData<VodItem[]>>(vodApi.querySameVideoByActor, {
+      query: {
+        actor: currentActor.value
+      }
+    })
+      .then(resData => {
+        artListData.value = resData;
+      })
+      .finally(() => {
+        artLoading.value = false;
+      });
+  });
 </script>
 
 <style lang="scss" scoped>

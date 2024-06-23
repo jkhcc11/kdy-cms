@@ -13,7 +13,9 @@ export const vodApi = {
   querySearch: '/kdy-normal/VideoMain/query',
   //详情
   getDetail: '/kdy-normal/VideoMain/detail',
-  getEpDetail: '/kdy-normal/VideoEpisode/epDetail'
+  getEpDetail: '/kdy-normal/VideoEpisode/epDetail',
+
+  querySameVideoByActor: '/kdy-normal/VideoMain/querySameVideoByActor'
 };
 
 //系列Api

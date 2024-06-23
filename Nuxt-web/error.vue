@@ -50,6 +50,7 @@
     background-color: #f8f8f8;
     color: #333;
     font-family: Arial, sans-serif;
+    line-height: normal;
   }
 
   .error-page h1 {

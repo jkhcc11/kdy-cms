@@ -26,7 +26,7 @@ declare global {
   //基础
   interface ResBase {
     createdTime: string;
-    modifyTime: string;
+    modifyTime?: string;
   }
 
   //全局资源

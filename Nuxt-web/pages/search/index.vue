@@ -17,25 +17,47 @@
             <el-tab-pane :label="title" name="first">
               <div class="video-list">
                 <el-row :gutter="20">
-                  <el-col v-for="item in searchData.data.data" :key="item.id" :sm="4" :xs="8">
-                    <div class="video-list__block">
-                      <nuxt-link :to="`/vod-detail/${item.id}`" class="img-box">
-                        <kyd-img-box :imgUrl="item.videoImg" />
-                        <span v-if="item.videoDouBan">{{
-                          +item.videoDouBan === 0 ? '无评分' : item.videoDouBan.toFixed(1)
-                        }}</span>
-                      </nuxt-link>
-                      <div class="video-list__detail">
-                        <h4 class="title text-overflow" :title="item.keyWord">
-                          {{ item.videoYear }} {{ item.keyWord }}
-                        </h4>
-                        <p class="text-overflow">
-                          {{ $formatTimeDifference(item.modifyTime ?? item.createdTime) }}
-                          <!-- <template v-for="actor in item.casts"> {{ actor.actor.name }}&nbsp; </template> -->
-                        </p>
+                  <el-skeleton :loading="pending" animated :count="1">
+                    <template #template>
+                      <el-skeleton-item variant="image" style="width: 200px; height: 267px" />
+                      <div style="padding: 14px">
+                        <el-skeleton-item variant="h3" style="width: 50%" />
+                        <div
+                          style="
+                            display: flex;
+                            align-items: center;
+                            justify-items: space-between;
+                            margin-top: 16px;
+                            height: 16px;
+                          "
+                        >
+                          <el-skeleton-item variant="text" style="margin-right: 16px" />
+                          <el-skeleton-item variant="text" style="width: 30%" />
+                        </div>
                       </div>
-                    </div>
-                  </el-col>
+                    </template>
+                    <template #default>
+                      <el-col v-for="item in searchData.data.data" :key="item.id" :sm="4" :xs="8">
+                        <div class="video-list__block">
+                          <nuxt-link :to="`/vod-detail/${item.id}`" class="img-box">
+                            <kyd-img-box :imgUrl="item.videoImg" />
+                            <span v-if="item.videoDouBan">{{
+                              +item.videoDouBan === 0 ? '无评分' : item.videoDouBan.toFixed(1)
+                            }}</span>
+                          </nuxt-link>
+                          <div class="video-list__detail">
+                            <h4 class="title text-overflow" :title="item.keyWord">
+                              {{ item.videoYear }} {{ item.keyWord }}
+                            </h4>
+                            <p class="text-overflow">
+                              {{ $formatTimeDifference(item.modifyTime ?? item.createdTime) }}
+                              <!-- <template v-for="actor in item.casts"> {{ actor.actor.name }}&nbsp; </template> -->
+                            </p>
+                          </div>
+                        </div>
+                      </el-col>
+                    </template>
+                  </el-skeleton>
                 </el-row>
                 <div class="pagination" v-if="searchData.data.dataCount && searchData.data.dataCount > 0">
                   <el-pagination

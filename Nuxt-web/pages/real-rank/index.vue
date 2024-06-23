@@ -46,14 +46,16 @@
 
   const activeName = ref('first');
   const codeTimeCount = ref(60);
+  const runtimeConfig = useRuntimeConfig();
+  const timezone = runtimeConfig.public.timeZone;
 
   const {
     data: realRankData,
     pending,
     refresh
   } = await useAsyncData<ResPage<any[]>>('query-real-rank-list', () => {
-    const endTime = dayjs().format('YYYY-MM-DD HH:mm:ss'); // 结束时间为当前时间
-    const startTime = dayjs().subtract(24, 'hour').format('YYYY-MM-DD HH:mm:ss'); // 开始时间为24小时前的时间
+    const endTime = dayjs().tz(timezone).format('YYYY-MM-DD HH:mm:ss'); // 结束时间为当前时间
+    const startTime = dayjs().tz(timezone).subtract(24, 'hour').format('YYYY-MM-DD HH:mm:ss'); // 开始时间为24小时前的时间
     return useClientRequest<ResPage<any[]>>(videoHistoryApi.search, {
       query: {
         startTime: startTime,
