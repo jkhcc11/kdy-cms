@@ -46,9 +46,9 @@
             id="main-player"
             allowfullscreen="true"
           ></iframe>
-          <!-- <el-empty v-else description="因版权或其他原因资源已下架，请尝试登录或访问其他页面以继续操作。">
+          <el-empty v-else description="因版权或其他原因资源已下架，请尝试登录或访问其他页面以继续操作。">
             <el-button type="info" plain @click="onFeedBack">登录</el-button>
-          </el-empty> -->
+          </el-empty>
         </div>
         <div>
           <h1 class="mb-10 mt-10 video-detail__title" v-if="epDetailRes?.data.videoMainInfo.keyWord">
@@ -67,7 +67,7 @@
             <el-tab-pane label="剧集列表">
               <el-space wrap :size="5" class="kdy_max_height_list">
                 <div v-for="epItem in epDetailRes?.data.videoEpisodeGroup.episodes" :key="epItem.id">
-                  <el-button :type="epItem.id == epDetailRes?.data.id ? 'primary' : 'default'">
+                  <el-button :type="epItem.id == (currentEpId ?? epDetailRes.data.id) ? 'primary' : 'default'">
                     <el-link
                       :href="`/vod-play/${epItem.id}`"
                       :class="epItem.id == (currentEpId ?? epDetailRes.data.id) ? 'kdy_a_active' : 'kdy_a'"
@@ -251,24 +251,30 @@
   // 视频组件
   //   let player: PresetPlayer | null = null;
 
-  if (token.value) {
-    //登录过的
-    useClientRequest(`${userApi.createHistory}`, {
+  function createHistory(epId: string | undefined) {
+    if (!epId) {
+      return;
+    }
+
+    if (token.value) {
+      //登录过的
+      useClientRequest(`${userApi.createHistory}`, {
+        body: {
+          epId,
+          vodUrl: route.fullPath
+        },
+        method: 'PUT'
+      });
+    }
+
+    //历史记录
+    useClientRequest(`${videoHistoryApi.create}`, {
       body: {
-        epId: route.params.id,
-        vodUrl: route.fullPath
+        epId
       },
       method: 'PUT'
     });
   }
-
-  //历史记录
-  useClientRequest(`${videoHistoryApi.create}`, {
-    body: {
-      epId: route.params.id
-    },
-    method: 'PUT'
-  });
 
   /**登录后刷新 */
   watch(token, () => {
@@ -321,7 +327,7 @@
         //不刷新 替换网址 拉去最新数据更新父窗口数据
         history.replaceState(null, '', `/vod-play/${tempData.epId}`);
         updateEpName(tempData.epId);
-        console.log('autoNextData-updatedata');
+        //console.log('autoNextData-updatedata');
       }
     };
 
@@ -335,17 +341,26 @@
   function updateEpName(newEpId: string) {
     //自动播放时接收到的epId
     currentEpId.value = newEpId;
-
-    const activeElement = document.querySelector('kdy_a_active');
-    if (activeElement) {
-      currentEpName.value = activeElement.innerText;
-    }
   }
 
-  onMounted(async () => {
+  //nextTick 确保了在 currentEpId 更新后，DOM 完全更新并渲染完成后再执行
+  watch(currentEpId, () => {
+    nextTick(() => {
+      const activeElement = document.getElementsByClassName('kdy_a_active')[0];
+      //console.log('activeElement', activeElement);
+      if (activeElement) {
+        currentEpName.value = activeElement.innerText;
+
+        createHistory(currentEpId.value);
+      }
+    });
+  });
+
+  onMounted(() => {
     qrcodeUrl.value = window.location.href;
     scrollToActiveElement();
     autoNextMsg();
+    createHistory(route.params.id as string);
   });
 </script>
 
