@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: 18
           cache: pnpm
+      - run: cd Nuxt-web
       - run: pnpm install
       - run: pnpm build
         env:
