@@ -44,8 +44,6 @@
   import { videoHistoryApi } from '~/api/httpApi';
   import dayjs from 'dayjs';
 
-  const endTime = dayjs().format('YYYY-MM-DD HH:mm:ss'); // 结束时间为当前时间
-  const startTime = dayjs().subtract(24, 'hour').format('YYYY-MM-DD HH:mm:ss'); // 开始时间为24小时前的时间
   const activeName = ref('first');
   const codeTimeCount = ref(60);
 
@@ -53,14 +51,16 @@
     data: realRankData,
     pending,
     refresh
-  } = await useAsyncData<ResPage<any[]>>('query-real-rank-list', () =>
-    useClientRequest<ResPage<any[]>>(videoHistoryApi.search, {
+  } = await useAsyncData<ResPage<any[]>>('query-real-rank-list', () => {
+    const endTime = dayjs().format('YYYY-MM-DD HH:mm:ss'); // 结束时间为当前时间
+    const startTime = dayjs().subtract(24, 'hour').format('YYYY-MM-DD HH:mm:ss'); // 开始时间为24小时前的时间
+    return useClientRequest<ResPage<any[]>>(videoHistoryApi.search, {
       query: {
         startTime: startTime,
         endTime: endTime
       }
-    })
-  );
+    });
+  });
 
   let timer = null;
   if (process.client) {

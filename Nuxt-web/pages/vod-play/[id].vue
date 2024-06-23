@@ -41,19 +41,14 @@
       <el-col :span="18" :xs="24">
         <div id="mse">
           <iframe
-            v-if="
-              epDetailRes?.data.playerHost &&
-              epDetailRes?.data.videoEpisodeGroup &&
-              epDetailRes?.data.videoEpisodeGroup.episodes &&
-              epDetailRes?.data.videoEpisodeGroup.episodes.length > 0
-            "
+            v-if="epDetailRes?.data.playerHost && epDetailRes?.data.id"
             :src="`${epDetailRes.data.playerHost}/VideoPlay/Index/${epDetailRes?.data.id}`"
             id="main-player"
             allowfullscreen="true"
           ></iframe>
-          <el-empty v-else description="因版权或其他原因资源已下架，请尝试登录或访问其他页面以继续操作。">
+          <!-- <el-empty v-else description="因版权或其他原因资源已下架，请尝试登录或访问其他页面以继续操作。">
             <el-button type="info" plain @click="onFeedBack">登录</el-button>
-          </el-empty>
+          </el-empty> -->
         </div>
         <div>
           <h1 class="mb-10 mt-10 video-detail__title" v-if="epDetailRes?.data.videoMainInfo.keyWord">
@@ -320,11 +315,11 @@
         //     id: tempData.epId
         //   }
         // });
-        router.push({
+        router.replace({
           path: `/vod-play/${tempData.epId}`
         });
         refresh();
-        console.log('autoNextData-refresh');
+        console.log('autoNextData-replace');
       }
     };
 
