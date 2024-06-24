@@ -37,18 +37,29 @@
         <el-breadcrumb-item> {{ currentEpName ?? epDetailRes?.data.episodeName }} </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
+
     <el-row :gutter="40" class="mt-10 kdy_padding kdy_row">
-      <el-col :span="18" :xs="24">
+      <el-col :span="18" :xs="24" v-if="isCheck">
+        <!-- check单独 -->
+        <iframe
+          v-if="epDetailRes?.data.playerHost && epDetailRes?.data.id"
+          :src="`${epDetailRes.data.playerHost}/VideoPlay/Index/${epDetailRes?.data.id}`"
+          id="main-player"
+          allowfullscreen="true"
+        ></iframe>
+      </el-col>
+      <el-col
+        :span="18"
+        :xs="24"
+        v-else-if="
+          epDetailRes?.data.videoEpisodeGroup &&
+          epDetailRes?.data.videoEpisodeGroup.episodes &&
+          epDetailRes?.data.videoEpisodeGroup.episodes.length > 0
+        "
+      >
         <div id="mse">
           <iframe
-            v-if="
-              epDetailRes?.data.playerHost &&
-              epDetailRes?.data.id &&
-              ((epDetailRes?.data.videoEpisodeGroup &&
-                epDetailRes?.data.videoEpisodeGroup.episodes &&
-                epDetailRes?.data.videoEpisodeGroup.episodes.length > 0) ||
-                isCheck)
-            "
+            v-if="epDetailRes?.data.playerHost && epDetailRes?.data.id"
             :src="`${epDetailRes.data.playerHost}/VideoPlay/Index/${epDetailRes?.data.id}`"
             id="main-player"
             allowfullscreen="true"
@@ -62,32 +73,29 @@
             {{ epDetailRes?.data.videoMainInfo.keyWord }} {{ currentEpName ?? epDetailRes?.data.episodeName }}
             <el-button type="warning" size="small" @click="onFeedBack">异常反馈</el-button>
           </h1>
+          <el-text type="info" size="small">注：无法播放或播放异常请直接反馈</el-text>
         </div>
-        <div
-          v-if="
-            epDetailRes?.data.videoEpisodeGroup &&
-            epDetailRes?.data.videoEpisodeGroup.episodes &&
-            epDetailRes?.data.videoEpisodeGroup.episodes.length > 0
-          "
-        >
+        <div>
           <el-tabs>
             <el-tab-pane label="剧集列表">
               <el-space wrap :size="5" class="kdy_max_height_list">
                 <div v-for="epItem in epDetailRes?.data.videoEpisodeGroup.episodes" :key="epItem.id">
-                  <el-button :type="epItem.id == (currentEpId ?? epDetailRes.data.id) ? 'primary' : 'default'">
-                    <el-link
-                      :href="`/vod-play/${epItem.id}`"
-                      :class="epItem.id == (currentEpId ?? epDetailRes.data.id) ? 'kdy_a_active' : 'kdy_a'"
-                    >
+                  <el-link
+                    :href="`/vod-play/${epItem.id}`"
+                    :class="epItem.id == (currentEpId ?? epDetailRes.data.id) ? 'kdy_a_active' : 'kdy_a'"
+                  >
+                    <el-button :type="epItem.id == (currentEpId ?? epDetailRes.data.id) ? 'primary' : 'default'">
                       {{ epItem.episodeName }}
-                    </el-link>
-                  </el-button>
+                    </el-button>
+                  </el-link>
                 </div>
               </el-space>
             </el-tab-pane>
           </el-tabs>
         </div>
-        <el-empty v-else description="因版权或其他原因资源已下架，请尝试登录或访问其他页面以继续操作。">
+      </el-col>
+      <el-col :span="18" :xs="24" v-else>
+        <el-empty description="因版权或其他原因资源已下架，请尝试登录或访问其他页面以继续操作。">
           <el-button type="info" plain @click="onFeedBack">登录</el-button>
         </el-empty>
       </el-col>

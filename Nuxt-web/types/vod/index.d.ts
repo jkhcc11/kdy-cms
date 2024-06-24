@@ -13,6 +13,7 @@ interface VodDetail extends ResBase, BaseEntityDto<string> {
   isSubscribe: boolean;
   subscribeId: string;
   videoDouBan: number;
+  videoContentFeature: string;
   videoMainInfo: VideoMainInfoDto;
   episodeGroup: VideoEpisodeGroupDto[];
   videoSeries?: QueryVideoSeriesDto;

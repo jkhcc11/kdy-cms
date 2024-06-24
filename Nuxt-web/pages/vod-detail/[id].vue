@@ -33,8 +33,8 @@
       <el-col :span="18" :xs="24">
         <h1 class="movie-detail-title hidden-sm-and-up">
           {{ detailRes?.data.keyWord }}
-          <span class="rate">
-            {{ (detailRes?.data.videoDouBan ?? 0) > 0 ? detailRes?.data.videoDouBan : '暂无评分' }}
+          <span class="rate" v-if="(detailRes?.data.videoDouBan ?? 0) > 0">
+            {{ detailRes?.data.videoDouBan }}
           </span>
         </h1>
         <div class="clearfix">
@@ -44,18 +44,45 @@
           <div class="movies-info">
             <h1 class="hidden-sm-and-down">
               {{ detailRes?.data.keyWord }}
-              <span class="rate">
-                {{ (detailRes?.data.videoDouBan ?? 0) > 0 ? detailRes?.data.videoDouBan : '暂无评分' }}
+              <span class="rate" v-if="(detailRes?.data.videoDouBan ?? 0) > 0">
+                {{ detailRes?.data.videoDouBan }}
               </span>
+              <a
+                v-if="detailRes?.data.videoInfoUrl"
+                :href="detailRes?.data.videoInfoUrl"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <el-image :src="doubanIco" style="height: 17px; margin-left: 5px"> </el-image>
+              </a>
             </h1>
             <el-form :inline="true" label-position="right">
-              <el-form-item label="类型:">{{ detailRes?.data.videoMainInfo.videoGenres }}</el-form-item>
-              <el-form-item label="地区:">
+              <el-form-item
+                label="播放至:"
+                v-if="detailRes?.data.newUserHistory && detailRes?.data.newUserHistory.epName"
+              >
+                <el-link
+                  :href="`/vod-play/${detailRes?.data.newUserHistory.epId}`"
+                  class="kdy_a_active"
+                  type="primary"
+                  style="font-size: x-large"
+                >
+                  {{ detailRes?.data.newUserHistory.epName }}
+                </el-link>
+              </el-form-item>
+              <el-form-item label="地区:" v-if="detailRes?.data.videoMainInfo.videoCountries">
                 <template v-for="item in detailRes?.data.videoMainInfo.videoCountries.split(',')">
                   {{ item }} &nbsp;
                 </template>
               </el-form-item>
               <el-form-item label="年份:">{{ detailRes?.data.videoYear || '-' }}</el-form-item>
+              <el-form-item label="类型:">{{ detailRes?.data.videoMainInfo.videoGenres }}</el-form-item>
+
+              <el-form-item v-if="detailRes.data?.videoSeries && detailRes.data.videoSeries.id" label="系列:">
+                <el-link :href="`/vod-series/${detailRes.data.videoSeries.id}`" type="primary" target="_blank">
+                  {{ detailRes.data.videoSeries.seriesName }}</el-link
+                >
+              </el-form-item>
             </el-form>
             <el-form label-position="right">
               <el-form-item v-if="detailRes?.data.ask" label="别名:">
@@ -67,6 +94,7 @@
               <el-form-item v-if="detailRes?.data.videoMainInfo.videoCasts" label="演员:">
                 <div class="text-overflow">{{ detailRes?.data.videoMainInfo.videoCasts }}</div>
               </el-form-item>
+
               <el-form-item label="更新时间:">
                 <div class="text-overflow">
                   {{ $formatTimeDifference(detailRes?.data.modifyTime ?? detailRes?.data.createdTime) }}
@@ -95,21 +123,14 @@
             </el-form>
           </div>
         </div>
-        <div v-if="detailRes?.data.episodeGroup && detailRes.data.episodeGroup.length" class="mt-20">
-          <div
-            v-if="detailRes?.data.newUserHistory && detailRes?.data.newUserHistory.epName"
-            class="panel_hd between items-center"
-          >
-            <div class="panel_hd__left">
-              上次播放至
-              <el-button round size="small" class="link-color" type="primary">
-                <a :href="`/vod-play/${detailRes?.data.newUserHistory.epId}`" class="kdy_a_active">
-                  {{ detailRes?.data.newUserHistory.epName }}
-                </a>
-              </el-button>
-            </div>
-          </div>
+        <div v-if="detailRes?.data.episodeGroup && detailRes.data.episodeGroup.length" class="mt-10">
           <div class="related_video">
+            <el-divider content-position="left">
+              <el-text v-if="detailRes?.data.videoContentFeature == 'systeminput'" type="success"
+                >极速线路，可放心食用</el-text
+              >
+              <el-text v-else type="warning">线路可能失效，播放失败可反馈</el-text></el-divider
+            >
             <el-tabs>
               <el-tab-pane
                 :label="epGroupItem.groupName"
@@ -126,11 +147,11 @@
                       <copy-button :textToCopy="epItem.episodeUrl"></copy-button>
                     </el-text>
 
-                    <el-button v-else>
-                      <el-link :href="`/vod-play/${epItem.id}`">
+                    <el-link :href="`/vod-play/${epItem.id}`" v-else>
+                      <el-button>
                         {{ epItem.episodeName }}
-                      </el-link>
-                    </el-button>
+                      </el-button>
+                    </el-link>
                   </div>
                 </el-space>
               </el-tab-pane>
@@ -141,7 +162,7 @@
           <el-button type="info" plain @click="handleCollect">登录</el-button>
         </el-empty>
 
-        <div class="mt-20">
+        <div class="mt-10" v-if="detailRes?.data.episodeGroup && detailRes.data.episodeGroup.length">
           <!-- <div class="panel_hd between items-center">
             <div class="panel_hd__left">
               <h3 class="title items-center">相关影片</h3>
@@ -209,7 +230,7 @@
 
 <script setup lang="ts">
   //详情页
-  import { domainHost } from '~/types/const';
+  import { domainHost, doubanIco } from '~/types/const';
   import { EpisodeGroupTypeEnum } from '~/types/enum';
   import QrcodeVue from 'qrcode.vue';
   import { useLoginDialogVisible, useToken } from '~/composables/states';

@@ -142,9 +142,16 @@
         vodInputVisible.value = true;
         break;
       }
-      default:
-        navigateTo('/user');
+      default: {
+        //防止打开多次
+        if (route.path.indexOf('/user') == -1) {
+          window.open('/user', '_blank');
+        } else {
+          navigateTo('/user');
+        }
+
         break;
+      }
     }
   }
 
