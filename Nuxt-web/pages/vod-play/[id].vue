@@ -57,6 +57,18 @@
           epDetailRes?.data.videoEpisodeGroup.episodes.length > 0
         "
       >
+        <el-carousel height="20px" :interval="5000" arrow="never">
+          <el-carousel-item>
+            <el-text type="success">已实现自动下一集，电视剧全屏挂机播放即可！</el-text>
+          </el-carousel-item>
+          <el-carousel-item>
+            <el-text type="warning">注：无法播放或播放异常请直接反馈</el-text>
+          </el-carousel-item>
+          <el-carousel-item>
+            <el-text type="danger">注：如果资源有广告的，切勿相信，如需更换资源请提交反馈说明</el-text>
+          </el-carousel-item>
+        </el-carousel>
+
         <div id="mse">
           <iframe
             v-if="epDetailRes?.data.playerHost && epDetailRes?.data.id"
@@ -73,7 +85,6 @@
             {{ epDetailRes?.data.videoMainInfo.keyWord }} {{ currentEpName ?? epDetailRes?.data.episodeName }}
             <el-button type="warning" size="small" @click="onFeedBack">异常反馈</el-button>
           </h1>
-          <el-text type="info" size="small">注：无法播放或播放异常请直接反馈</el-text>
         </div>
         <div>
           <el-tabs>
