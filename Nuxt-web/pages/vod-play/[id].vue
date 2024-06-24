@@ -265,6 +265,11 @@
       return;
     }
 
+    if (isCheck.value) {
+      //巡查不用
+      return;
+    }
+
     if (token.value) {
       //登录过的
       useClientRequest(`${userApi.createHistory}`, {
