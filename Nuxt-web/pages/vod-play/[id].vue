@@ -44,9 +44,10 @@
             v-if="
               epDetailRes?.data.playerHost &&
               epDetailRes?.data.id &&
-              epDetailRes?.data.videoEpisodeGroup &&
-              epDetailRes?.data.videoEpisodeGroup.episodes &&
-              epDetailRes?.data.videoEpisodeGroup.episodes.length > 0
+              ((epDetailRes?.data.videoEpisodeGroup &&
+                epDetailRes?.data.videoEpisodeGroup.episodes &&
+                epDetailRes?.data.videoEpisodeGroup.episodes.length > 0) ||
+                isCheck)
             "
             :src="`${epDetailRes.data.playerHost}/VideoPlay/Index/${epDetailRes?.data.id}`"
             id="main-player"
@@ -151,6 +152,8 @@
   });
 
   const route = useRoute();
+  //巡查程序开放
+  const isCheck = ref<boolean>(route.query.check == 'chrome');
   // const id = ref();
   const qrcodeUrl = ref('');
   const currentEpId = ref<string | undefined>(undefined);
