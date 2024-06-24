@@ -1,13 +1,13 @@
 <template>
   <div class="container index">
     <div class="banner" v-if="config?.bannerItems && config?.bannerItems.length > 0">
-      <el-carousel :interval="5000" arrow="always">
+      <el-carousel :interval="50000" arrow="always" motion-blur>
         <el-carousel-item v-for="item in config?.bannerItems" :key="item.bannerName">
           <nuxt-link v-if="+item.bannerType === 0" :to="item.url">
-            <kyd-img-box :imgUrl="item.imgUrl" />
+            <el-image :src="item.imgUrl" fit="cover" />
           </nuxt-link>
           <a v-else :href="item.url" target="_blank">
-            <kyd-img-box :imgUrl="item.imgUrl" />
+            <el-image :src="item.imgUrl" fit="cover" />
           </a>
         </el-carousel-item>
       </el-carousel>
@@ -43,7 +43,9 @@
       }
 
       .el-image {
+        //1920x516标准海报 只要是516高度就行
         height: 380px;
+        width: -webkit-fill-available;
       }
 
       @media (max-width: 768px) {
