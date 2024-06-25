@@ -11,7 +11,9 @@
 
   const tipMsgVisible = useTipMsgVisible();
   const { config } = useGlobalConfig();
-  const tipMsgVisibleCookie = useCookie<boolean | undefined>('tipMsgVisible');
+  const tipMsgVisibleCookie = useCookie<boolean | undefined>('tipMsgVisible', {
+    maxAge: 60 * 60 * 24 * 7 // cookie 的生存时间，例如这里设置为一周
+  });
 
   function onClose() {
     tipMsgVisibleCookie.value = false;

@@ -152,7 +152,9 @@
   const regDialogVisible = useRegDialogVisible();
   const loginDialogVisible = useLoginDialogVisible();
   const findDialogVisible = useFindDialogVisible();
-  const tokenCookie = useCookie<string | undefined>('token');
+  const tokenCookie = useCookie<string | undefined>('token', {
+    maxAge: 60 * 60 * 24 * 7 // cookie 的生存时间，例如这里设置为一周
+  });
 
   const formRef = ref<FormInstance>();
   const formRegRef = ref<FormInstance>();
