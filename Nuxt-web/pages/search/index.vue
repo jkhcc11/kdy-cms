@@ -37,7 +37,7 @@
                       </div>
                     </template>
                     <template #default>
-                      <el-col v-for="item in searchData.data.data" :key="item.id" :sm="4" :xs="8">
+                      <el-col v-for="item in searchData.data.data" :key="item.id" :sm="4" :xs="12">
                         <div class="video-list__block">
                           <nuxt-link :to="`/vod-detail/${item.id}`" class="img-box">
                             <kyd-img-box :imgUrl="item.videoImg" />

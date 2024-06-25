@@ -4,7 +4,7 @@
       <el-empty v-if="movieList.length === 0" description="无反馈记录~" />
       <div v-else class="video-list">
         <el-row :gutter="20">
-          <el-col v-for="item in movieList" :key="item.id" :sm="4" :xs="8">
+          <el-col v-for="item in movieList" :key="item.id" :sm="4" :xs="12">
             <div class="video-list__block">
               <!-- <a :href="item.originalUrl">
                 {{ item.feedBackInfoStatusStr }}

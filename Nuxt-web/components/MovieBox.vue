@@ -26,7 +26,7 @@
       </div>
       <div class="video-list">
         <el-row :gutter="20">
-          <el-col v-for="item in categoryItem.typeDataItems" :key="item.id" :sm="4" :xs="8">
+          <el-col v-for="item in categoryItem.typeDataItems" :key="item.id" :sm="4" :xs="12">
             <div class="video-list__block">
               <a :href="`${item.detailUrl}`" class="img-box">
                 <kyd-img-box :imgUrl="item.videoImg" />

@@ -57,7 +57,7 @@
           epDetailRes?.data.videoEpisodeGroup.episodes.length > 0
         "
       >
-        <el-carousel height="20px" :interval="5000" arrow="never">
+        <el-carousel height="20px" :interval="5000" arrow="never" direction="vertical">
           <el-carousel-item>
             <el-text type="success">已实现自动下一集，电视剧全屏挂机播放即可！</el-text>
           </el-carousel-item>
