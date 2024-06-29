@@ -342,9 +342,10 @@
       //{origin:'https://kdy-play.kdy666.pro'}
       //console.log('autoNext', event);
       //{epId:"1802601442033405956"}
-      console.log('autoNextData', event.data);
+
       const tempData = event.data;
-      if (tempData) {
+      if (tempData && tempData.epId) {
+        console.log('autoNextData', tempData);
         // 在这里处理接收到的数据
         //console.log('Received data:', tempData);
         // route.params.id = tempData.epId;
