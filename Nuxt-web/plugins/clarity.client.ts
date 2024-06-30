@@ -13,5 +13,13 @@ export default defineNuxtPlugin(() => {
     script.text = scriptContent;
     script.id = 'kdy_tj';
     document.head.appendChild(script);
+
+    //custom umami
+    const hm = document.createElement('script') as any;
+    hm.src = 'https://umami.kdy666.pro/script.js';
+    hm['data-website-id'] = '0cfc4fdb-6962-4846-8ea3-964c9fb5e4ba';
+    hm.defer = true;
+    const s = document.getElementsByTagName('script')[0];
+    s.parentNode?.insertBefore(hm, s);
   }
 });
