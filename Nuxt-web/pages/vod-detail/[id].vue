@@ -304,7 +304,7 @@
 
   //导演和演员数组
   function getDirectorsAndCasts(videoMainInfo: VideoMainInfoDto) {
-    const result: string[] = [];
+    // const result: string[] = [];
 
     //分割并移除对应的
     const splitAndTrim = (str: string) => {
@@ -325,10 +325,11 @@
       directors = splitAndTrim(videoMainInfo.videoDirectors).slice(0, 2); // 取前2个导演
     }
 
-    result.push(...directors, ...casts);
+    // 使用 Set 去重
+    const result = Array.from(new Set([...directors, ...casts]));
     if (result.length > 0 && !currentActor.value) {
       currentActor.value = result[0];
-      console.log('fwfew');
+      // console.log('fwfew');
     }
 
     return result;
