@@ -24,7 +24,7 @@
                 >
                   <a
                     v-if="item.demandType == 10 && item.feedBackInfoStatus == 10"
-                    :href="item.videoName"
+                    :href="`/search?keyword=${item.videoName}`"
                     target="_blank"
                   >
                     <h4 class="title text-overflow">{{ item.videoName }}</h4>
@@ -92,7 +92,7 @@
       return 'success';
     }
 
-    return '';
+    return 'info';
   }
 </script>
 
