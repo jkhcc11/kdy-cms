@@ -34,11 +34,11 @@
             </ul>
           </nav>
         </div>
-        <div v-if="route.path !== '/search'" class="header__right items-center">
+        <div v-if="route.path !== '/search'" class="header__right items-center mr-20">
           <el-input
             v-model="searchValue"
-            class="w-50 m-2 mr-5"
-            placeholder="请输入搜索的影视名"
+            class="mr-20"
+            placeholder="可以少字，切勿错字，关键字 "
             :suffix-icon="ElIconSearch"
             @keyup.enter="handleSearch"
           />
@@ -61,7 +61,7 @@
           </ClientOnly>
         </div>
       </div>
-      <div v-if="route.path.indexOf('/user') === -1" class="mobile-nav hidden-sm-only hidden-sm-and-up">
+      <div v-if="route.path.indexOf('/user') === -1" class="mobile-nav hidden-md-and-up">
         <ul>
           <li v-for="(item, index) in config?.navItems" :key="index" :class="route.path === item.value ? 'active' : ''">
             <nuxt-link v-if="!item.isUrl" :to="item.value">{{ item.showName }}</nuxt-link>
