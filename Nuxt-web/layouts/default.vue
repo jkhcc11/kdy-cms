@@ -38,7 +38,7 @@
           <el-input
             v-model="searchValue"
             class="mr-20"
-            placeholder="可以少字，切勿错字，关键字 "
+            placeholder="可以少字，切勿错字，影片关键字"
             :suffix-icon="ElIconSearch"
             @keyup.enter="handleSearch"
           />

@@ -6,7 +6,7 @@
           <div class="search-form">
             <el-form :model="form" :inline="true">
               <el-form-item>
-                <el-input v-model="form.keyword" placeholder="请输入搜索影片关键字"></el-input>
+                <el-input v-model="form.keyword" placeholder="可以少字，切勿错字，影片关键字"></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="onSearch" :loading="pending">搜 索</el-button>
