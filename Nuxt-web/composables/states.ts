@@ -123,3 +123,37 @@ export const useEpDetailData = (id: string) => {
     refresh
   };
 };
+
+/** 自助匹配 **/
+export const useSelfMatchData = () => {
+  const selfMatch = useState<SelfMatchModel>('selfMatch', () => {
+    return {
+      currentStep: 1
+    } as SelfMatchModel;
+  });
+
+  //清空
+  function clear() {
+    selfMatch.value = {
+      currentStep: 1
+    } as SelfMatchModel;
+  }
+
+  //清空资源相关
+  function clearZy() {
+    selfMatch.value.zyVodImg = '';
+    selfMatch.value.zyVodIsEnd = false;
+    selfMatch.value.zyVodTitle = '';
+    selfMatch.value.zyVodYear = 0;
+    selfMatch.value.epItems = [];
+
+    selfMatch.value.zyDetailUrl = '';
+    selfMatch.value.zyPageMd5 = '';
+  }
+
+  return {
+    selfMatch,
+    clear,
+    clearZy
+  };
+};

@@ -15,7 +15,15 @@ export const vodApi = {
   getDetail: '/kdy-normal/VideoMain/detail',
   getEpDetail: '/kdy-normal/VideoEpisode/epDetail',
 
-  querySameVideoByActor: '/kdy-normal/VideoMain/querySameVideoByActor'
+  querySameVideoByActor: '/kdy-normal/VideoMain/querySameVideoByActor',
+
+  autoMatchDouBan: '/kdy-normal/VideoMain/match-vod-info',
+  autoMatchZy: '/kdy-normal/VideoMain/match-vod-zy',
+
+  //根据关键字自动匹配创建豆瓣信息
+  autoCreteByKeyWork: '/kdy-normal/DouBanInfo/auto-create-by-keyword',
+  //自动入库
+  autoMatchSave: '/kdy-normal/VideoMain/auto-match-save'
 };
 
 //系列Api

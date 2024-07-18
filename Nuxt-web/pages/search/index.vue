@@ -71,7 +71,10 @@
                   />
                 </div>
                 <el-empty v-else description="当前无数据,请更换关键字">
-                  <el-button type="info" v-if="token" @click="feedback">提交反馈</el-button>
+                  <!-- <el-button type="info" v-if="token" @click="feedback">提交反馈</el-button> -->
+                  <el-button type="warning" v-if="form.keyword">
+                    <a :href="`/self-match?keyWord=${form.keyword}`" class="kdy_a_active">自助找片</a></el-button
+                  >
                 </el-empty>
               </div>
             </el-tab-pane>
@@ -86,8 +89,8 @@
   import { vodApi } from '~/api/httpApi';
   import { commonPageSize } from '~/types/const';
 
-  const vodInputVisible = useVodInputVisible();
-  const token = useToken();
+  // const vodInputVisible = useVodInputVisible();
+  // const token = useToken();
   const title = ref('');
   const route = useRoute();
   const activeName = ref('first');
@@ -115,17 +118,26 @@
     data: searchData,
     pending,
     refresh
-  } = await useAsyncData<ResPage<VodItem[]>>('vod-search-by-keyword', () =>
-    useClientRequest<ResPage<VodItem[]>>(vodApi.querySearch, {
+  } = await useAsyncData<ResPage<VodItem[]>>('vod-search-by-keyword', () => {
+    if (!form.keyword) {
+      return Promise.resolve({
+        data: [],
+        code: 0,
+        msg: '',
+        isSuccess: true
+      });
+    }
+
+    return useClientRequest<ResPage<VodItem[]>>(vodApi.querySearch, {
       query: {
         keyWord: form.keyword,
         page: currentPage.value,
         pageSize: 12
       }
-    })
-  );
+    });
+  });
 
-  title.value = `${form.keyword} 搜索结果`;
+  title.value = `${form.keyword ?? ''} 搜索结果`;
 
   //翻页
   function handleCurrentChange(page: number) {
@@ -140,20 +152,22 @@
 
   //搜素
   async function onSearch() {
-    await navigateTo({
-      path: route.path,
-      query: {
-        keyword: form.keyword
-      }
-    });
+    if (form.keyword) {
+      await navigateTo({
+        path: route.path,
+        query: {
+          keyword: form.keyword
+        }
+      });
 
-    refresh();
-    title.value = `${form.keyword} 搜索结果`;
+      refresh();
+      title.value = `${form.keyword} 搜索结果`;
+    }
   }
 
-  function feedback() {
-    vodInputVisible.value = true;
-  }
+  // function feedback() {
+  //   vodInputVisible.value = true;
+  // }
 </script>
 
 <style lang="scss" scoped>

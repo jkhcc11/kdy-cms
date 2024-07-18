@@ -3,9 +3,12 @@ import qs from 'qs';
 
 type FetchType = typeof $fetch;
 export type FetchOptions = Parameters<FetchType>[1];
+export interface ClientRequestExtOpt {
+  isReturnOriginal?: boolean;
+}
 
 //客户端直接请求 就是浏览器直接请求
-export const useClientRequest = <T = unknown>(url: string, opts?: FetchOptions) => {
+export const useClientRequest = <T = unknown>(url: string, opts?: FetchOptions, extOpt?: ClientRequestExtOpt) => {
   const cookieToken = useCookie<string | undefined>('token');
   const stateToken = useToken();
 
@@ -22,8 +25,11 @@ export const useClientRequest = <T = unknown>(url: string, opts?: FetchOptions) 
       }
     },
     onResponse({ response }) {
-      if (+response.status === 200 && !response._data.isSuccess) {
-        ElMessage.error(response._data.msg ?? '请求无效-client');
+      if (+response.status === 200) {
+        //原始返回
+        if ((extOpt?.isReturnOriginal ?? false) == false && !response._data.isSuccess) {
+          ElMessage.error(response._data.msg ?? '请求无效-client');
+        }
       }
     },
     onResponseError({ response }) {

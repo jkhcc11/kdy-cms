@@ -248,6 +248,7 @@
   const qrcodeUrl = ref<string>('');
   const isCollect = ref<boolean>(false);
   const collectLoading = ref<boolean>(false);
+  const detailData = ref<VodDetail | undefined>(undefined);
 
   const { detailData: detailRes, refresh } = useDetailData(id + '');
   onMounted(() => {
@@ -255,6 +256,7 @@
   });
 
   isCollect.value = detailRes.value?.data.isSubscribe ?? false;
+  detailData.value = detailRes.value?.data;
 
   /**登录后刷新 */
   watch(token, () => {
@@ -262,7 +264,12 @@
   });
 
   watch(detailRes, () => {
-    isCollect.value = detailRes.value?.data.isSubscribe ?? false;
+    nextTick(() => {
+      isCollect.value = detailRes.value?.data.isSubscribe ?? false;
+      sendCheck();
+    });
+    // isCollect.value = detailRes.value?.data.isSubscribe ?? false;
+    // sendCheck();
   });
 
   //收藏|取消收藏
@@ -335,6 +342,38 @@
     return result;
   }
 
+  //检查发起
+  function sendCheck() {
+    //console.log('cheeeee', detailData.value);
+    if (!detailData.value) {
+      return;
+    }
+
+    if (detailData.value.videoInfoUrl.indexOf('douban') == -1) {
+      useClientRequest(
+        `${vodApi.autoMatchDouBan}/${id}`,
+        {
+          method: 'GET'
+        },
+        {
+          isReturnOriginal: true
+        }
+      );
+    }
+
+    if (detailData.value.videoContentFeature != 'systeminput') {
+      useClientRequest(
+        `${vodApi.autoMatchZy}/${id}`,
+        {
+          method: 'GET'
+        },
+        {
+          isReturnOriginal: true
+        }
+      );
+    }
+  }
+
   //艺人切换
   watch(currentActor, () => {
     artLoading.value = true;
@@ -349,6 +388,10 @@
       .finally(() => {
         artLoading.value = false;
       });
+  });
+
+  onMounted(() => {
+    sendCheck();
   });
 </script>
 

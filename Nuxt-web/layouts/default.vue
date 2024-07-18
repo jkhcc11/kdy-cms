@@ -41,6 +41,7 @@
             placeholder="可以少字，切勿错字，影片关键字"
             :suffix-icon="ElIconSearch"
             @keyup.enter="handleSearch"
+            v-if="route.path !== '/search'"
           />
           <ClientOnly>
             <template v-if="token">
@@ -125,7 +126,10 @@
 
   //导航搜索
   function handleSearch() {
-    navigateTo('/search?keyword=' + searchValue.value);
+    if (searchValue.value) {
+      //其他页面回车会调用
+      navigateTo('/search?keyword=' + searchValue.value);
+    }
   }
 
   //登录

@@ -4,6 +4,8 @@ interface VodDetail extends ResBase, BaseEntityDto<string> {
   subtypeVal: string;
   orderBy: number;
   isEnd: boolean;
+  //是否匹配豆瓣
+  isMatchInfo: boolean;
   keyWord: string;
   videoImg: string;
   videoMainStatus: VideoMainStatusEnum;

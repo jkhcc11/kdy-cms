@@ -73,7 +73,7 @@
         btnLoading.value = true;
         showText.value = '请稍等，提交中...';
         useClientRequest<ResOptions<any>>(userApi.createWithHelp, {
-          method: 'post',
+          method: 'POST',
           body: {
             ...formVodInput
           }
