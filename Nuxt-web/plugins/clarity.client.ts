@@ -16,7 +16,7 @@ export default defineNuxtPlugin(() => {
 
     //custom umami
     const umamiScript = document.createElement('script');
-    umamiScript.src = 'https://umami.kdy666.pro/script.js';
+    umamiScript.src = 'https://umami.kdy666.com/script.js';
     umamiScript.setAttribute('data-website-id', '0cfc4fdb-6962-4846-8ea3-964c9fb5e4ba');
     umamiScript.defer = true;
     const s = document.getElementsByTagName('script')[0];

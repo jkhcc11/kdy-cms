@@ -24,12 +24,12 @@ export default defineNuxtConfig({
   app: {
     head: {
       viewport: 'width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no',
-      title: '看电影-专注老影视 www.kdy666.pro',
+      title: '看电影-专注老影视 www.kdy666.com',
       meta: [
-        { name: 'keywords', content: '看电影 www.kdy666.pro,视频弹幕站点,冷门经典电影,支持冷门影片补录' },
+        { name: 'keywords', content: '看电影 www.kdy666.com,视频弹幕站点,冷门经典电影,支持冷门影片补录' },
         {
           name: 'description',
-          content: '看电影 www.kdy666.pro 专注老影视、经典、冷门在线播放，在线弹幕观看'
+          content: '看电影 www.kdy666.com 专注老影视、经典、冷门在线播放，在线弹幕观看'
         }
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]

@@ -339,7 +339,7 @@
       // }
 
       //pushData.epId = nextEpId;
-      //{origin:'https://kdy-play.kdy666.pro'}
+      //{origin:'https://kdy-play.kdy666.com'}
       //console.log('autoNext', event);
       //{epId:"1802601442033405956"}
 
